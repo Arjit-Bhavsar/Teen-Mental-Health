@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Positive Self-Talk | Teen Mental Health Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-blue: #6B9BC3;
+            --sky-light: #A3C4E0;
+            --sage: #7D9B76;
+            --sage-dark: #5A7254;
+            --prairie: #C9B896;
+            --earth: #8B7355;
+            --cream: #F7F5F0;
+            --cream-dark: #EBE8E0;
+            --night: #2D3436;
+            --night-light: #4A5254;
+            --rust: #C17B5E;
+            --rust-dark: #A65D40;
+            --talk-purple: #9B59B6;
+            --talk-purple-dark: #7D3C98;
+            --talk-pink: #E91E63;
+            
+            --text-primary: #2D3436;
+            --text-secondary: #636E72;
+            --border-light: rgba(45, 52, 54, 0.08);
+            
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'Outfit', -apple-system, sans-serif;
+            
+            --shadow-soft: 0 4px 20px rgba(45, 52, 54, 0.06);
+            --shadow-medium: 0 8px 30px rgba(45, 52, 54, 0.1);
+            --shadow-strong: 0 12px 40px rgba(45, 52, 54, 0.14);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--cream);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grain texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.025;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ==================== INTRO OVERLAY ==================== */
+        .intro-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, var(--night) 0%, #2a1a3a 100%);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .intro-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .intro-content {
+            text-align: center;
+            color: white;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .intro-icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--talk-purple) 0%, var(--talk-pink) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(155, 89, 182, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(155, 89, 182, 0); }
+        }
+
+        .intro-icon svg { width: 40px; height: 40px; fill: white; }
+
+        .intro-content h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease forwards 0.3s;
+        }
+
+        .intro-content p {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease forwards 0.5s;
+        }
+
+        .intro-tagline {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--talk-pink);
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease forwards 0.7s;
+        }
+
+        .intro-btn {
+            padding: 1rem 2.5rem;
+            background: white;
+            color: var(--night);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease forwards 0.9s;
+        }
+
+        .intro-btn:hover {
+            background: var(--talk-pink);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 1rem 2rem;
+            background: rgba(247, 245, 240, 0.92);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--night);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .logo-mark {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--sky-blue) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-mark svg { width: 20px; height: 20px; fill: white; }
+        .nav-links { display: flex; gap: 0.5rem; list-style: none; }
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.6rem 1.1rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--text-primary); background: var(--cream-dark); }
+        .nav-links a.active { color: var(--talk-purple-dark); background: rgba(155, 89, 182, 0.12); }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .mobile-menu-btn span {
+            display: block;
+            width: 22px; height: 2px;
+            background: var(--night);
+            margin: 5px 0;
+            transition: var(--transition);
+        }
+
+        /* ==================== PAGE HERO ==================== */
+        .page-hero {
+            padding: 10rem 2rem 5rem;
+            background: linear-gradient(180deg, var(--cream) 0%, white 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; right: -10%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(155, 89, 182, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .page-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .page-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(155, 89, 182, 0.12);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--talk-purple-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .page-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            color: var(--night);
+            margin-bottom: 1rem;
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==================== CONTENT SECTIONS ==================== */
+        .content-section {
+            padding: 5rem 2rem;
+        }
+
+        .section-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            border-left: 4px solid var(--talk-purple);
+        }
+
+        .content-card h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            color: var(--night);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .content-card h2 .icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--talk-purple) 0%, var(--talk-pink) 100%);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .content-card h2 .icon svg { width: 20px; height: 20px; fill: white; }
+
+        .content-card p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.08) 0%, rgba(233, 30, 99, 0.08) 100%);
+            border-left: 4px solid var(--talk-pink);
+            padding: 1.5rem;
+            border-radius: var(--radius-sm);
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p {
+            color: var(--night);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* ==================== NEGATIVE PATTERNS SECTION ==================== */
+        .patterns-section {
+            background: white;
+            padding: 5rem 2rem;
+        }
+
+        .patterns-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .patterns-header h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--night);
+            margin-bottom: 0.75rem;
+        }
+
+        .patterns-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pattern-card {
+            background: var(--cream);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pattern-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--talk-purple) 0%, var(--talk-pink) 100%);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .pattern-card:hover::before { transform: scaleX(1); }
+
+        .pattern-icon {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, var(--talk-purple) 0%, var(--talk-pink) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.5rem;
+        }
+
+        .pattern-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--night);
+            margin-bottom: 0.5rem;
+        }
+
+        .pattern-card .problem {
+            color: var(--rust);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        .pattern-card .solution {
+            color: var(--sage-dark);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .pattern-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ==================== REFRAME SECTION ==================== */
+        .reframe-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+        }
+
+        .reframe-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .reframe-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .reframe-header h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--night);
+            margin-bottom: 0.75rem;
+        }
+
+        .reframe-examples {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .reframe-item {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1rem;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .reframe-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .reframe-negative {
+            background: rgba(193, 123, 94, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .reframe-negative span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--rust);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .reframe-negative p {
+            color: var(--night);
+            font-size: 0.95rem;
+            font-style: italic;
+            margin: 0;
+        }
+
+        .reframe-arrow {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--talk-purple) 0%, var(--talk-pink) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .reframe-arrow svg { width: 20px; height: 20px; fill: white; }
+
+        .reframe-positive {
+            background: rgba(125, 155, 118, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .reframe-positive span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--sage-dark);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .reframe-positive p {
+            color: var(--night);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* ==================== MINDSET SECTION ==================== */
+        .mindset-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .mindset-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .mindset-card {
+            background: var(--cream);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .mindset-card h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--night);
+            margin-bottom: 1rem;
+        }
+
+        .mindset-card > p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .mindset-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .mindset-type {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .mindset-type.fixed {
+            border-top: 4px solid var(--rust);
+        }
+
+        .mindset-type.growth {
+            border-top: 4px solid var(--sage);
+        }
+
+        .mindset-type h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .mindset-type.fixed h3 { color: var(--rust); }
+        .mindset-type.growth h3 { color: var(--sage-dark); }
+
+        .mindset-type ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mindset-type li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .mindset-type li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.9rem;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+        }
+
+        .mindset-type.fixed li::before { background: var(--rust); }
+        .mindset-type.growth li::before { background: var(--sage); }
+
+        /* ==================== PRACTICE SECTION ==================== */
+        .practice-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
+        }
+
+        .practice-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-strong);
+            overflow: hidden;
+        }
+
+        .practice-header {
+            background: linear-gradient(135deg, var(--talk-purple) 0%, var(--talk-pink) 100%);
+            padding: 2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .practice-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .practice-header p { opacity: 0.9; }
+
+        .practice-content { padding: 2.5rem; }
+
+        .practice-step {
+            display: none;
+            animation: fadeSlide 0.4s ease;
+        }
+
+        .practice-step.active { display: block; }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .practice-step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--cream-dark);
+            transition: var(--transition);
+        }
+
+        .step-dot.active { background: var(--talk-purple); width: 30px; border-radius: 5px; }
+        .step-dot.completed { background: var(--sage); }
+
+        .practice-question {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            color: var(--night);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .practice-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 2px solid var(--cream-dark);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            resize: vertical;
+            transition: var(--transition);
+        }
+
+        .practice-textarea:focus {
+            outline: none;
+            border-color: var(--talk-purple);
+        }
+
+        .practice-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .practice-btn {
+            padding: 0.9rem 1.75rem;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+        }
+
+        .practice-btn.prev {
+            background: transparent;
+            border: 2px solid var(--text-secondary);
+            color: var(--text-secondary);
+        }
+
+        .practice-btn.prev:hover { border-color: var(--night); color: var(--night); }
+
+        .practice-btn.next {
+            background: var(--night);
+            color: white;
+        }
+
+        .practice-btn.next:hover { background: var(--talk-purple); }
+        .practice-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .practice-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+        /* Practice Results */
+        .practice-results { text-align: center; }
+
+        .results-icon {
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--talk-purple) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .results-icon svg { width: 35px; height: 35px; fill: white; }
+
+        .practice-results h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--night);
+            margin-bottom: 1rem;
+        }
+
+        .reframe-result {
+            background: var(--cream);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .reframe-result-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .reframe-result-item:last-child { border-bottom: none; }
+
+        .reframe-result-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .reframe-result-label.negative { color: var(--rust); }
+        .reframe-result-label.positive { color: var(--sage-dark); }
+
+        .reframe-result-text {
+            font-size: 1rem;
+            color: var(--night);
+        }
+
+        .encouragement-box {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.1) 0%, rgba(233, 30, 99, 0.1) 100%);
+            border-left: 4px solid var(--talk-purple);
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .encouragement-box h4 {
+            font-size: 0.95rem;
+            color: var(--talk-purple-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .encouragement-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* ==================== QUIZ SECTION ==================== */
+        .quiz-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .quiz-container { max-width: 700px; margin: 0 auto; }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .quiz-header h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--night);
+            margin-bottom: 0.75rem;
+        }
+
+        .quiz-header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .quiz-progress {
+            height: 6px;
+            background: var(--cream-dark);
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--talk-purple) 0%, var(--talk-pink) 100%);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .quiz-question-container {
+            background: var(--cream);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question-number {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--talk-purple);
+            margin-bottom: 0.75rem;
+        }
+
+        .quiz-question-text {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            color: var(--night);
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options { display: grid; gap: 0.75rem; }
+
+        .quiz-option {
+            padding: 1rem 1.25rem;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            font-size: 0.95rem;
+        }
+
+        .quiz-option:hover { border-color: var(--talk-purple); }
+        .quiz-option.selected { border-color: var(--talk-purple); background: rgba(155, 89, 182, 0.08); }
+        .quiz-option.correct { border-color: var(--sage); background: rgba(125, 155, 118, 0.15); }
+        .quiz-option.incorrect { border-color: var(--rust); background: rgba(193, 123, 94, 0.15); }
+
+        .option-letter {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: var(--cream-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .quiz-option.selected .option-letter { background: var(--talk-purple); color: white; }
+        .quiz-option.correct .option-letter { background: var(--sage); color: white; }
+        .quiz-option.incorrect .option-letter { background: var(--rust); color: white; }
+
+        .quiz-feedback {
+            display: none;
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            margin-top: 1rem;
+        }
+
+        .quiz-feedback.show { display: block; animation: fadeSlide 0.3s ease; }
+        .quiz-feedback.correct { background: rgba(125, 155, 118, 0.15); border-left: 4px solid var(--sage); }
+        .quiz-feedback.incorrect { background: rgba(193, 123, 94, 0.15); border-left: 4px solid var(--rust); }
+
+        .quiz-feedback h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .quiz-feedback.correct h4 { color: var(--sage-dark); }
+        .quiz-feedback.incorrect h4 { color: var(--rust-dark); }
+        .quiz-feedback p { font-size: 0.9rem; color: var(--text-secondary); margin: 0; }
+
+        .quiz-nav { display: flex; justify-content: space-between; margin-top: 1.5rem; }
+
+        .quiz-btn {
+            padding: 0.9rem 1.75rem;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+        }
+
+        .quiz-btn.secondary { background: var(--cream); color: var(--night); }
+        .quiz-btn.secondary:hover { background: var(--cream-dark); }
+        .quiz-btn.primary { background: var(--night); color: white; }
+        .quiz-btn.primary:hover { background: var(--talk-purple); }
+        .quiz-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .quiz-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+        /* Quiz Results */
+        .quiz-results {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: var(--cream);
+            border-radius: var(--radius-lg);
+        }
+
+        .quiz-results.show { display: block; animation: fadeSlide 0.5s ease; }
+
+        .quiz-score-circle {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .quiz-score-value {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--talk-purple);
+            line-height: 1;
+        }
+
+        .quiz-score-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .quiz-results h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--night);
+            margin-bottom: 0.75rem;
+        }
+
+        .quiz-results > p {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: var(--night);
+            color: white;
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .footer-brand { display: flex; align-items: center; gap: 0.6rem; }
+        .footer-brand .logo-mark { width: 32px; height: 32px; }
+        .footer-brand span { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; }
+        .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--sky-light); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+        .footer-links a:hover { color: white; }
+        .footer-copy {
+            width: 100%;
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: var(--sky-light);
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            .navbar { padding: 0.9rem 1.5rem; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: var(--cream);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 0.5rem;
+                border-bottom: 1px solid var(--border-light);
+            }
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .page-hero { padding: 8rem 1.5rem 3rem; }
+            .content-card { padding: 1.75rem; }
+            .practice-content { padding: 1.75rem; }
+            .reframe-item { grid-template-columns: 1fr; text-align: center; }
+            .reframe-arrow { margin: 0 auto; transform: rotate(90deg); }
+            .mindset-comparison { grid-template-columns: 1fr; }
+            .footer-container { flex-direction: column; text-align: center; }
+            .footer-links { justify-content: center; }
+            .intro-content h1 { font-size: 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .patterns-grid { grid-template-columns: 1fr; }
+            .intro-content h1 { font-size: 1.75rem; }
+            .intro-tagline { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Intro Overlay -->
+    <div class="intro-overlay" id="intro-overlay">
+        <div class="intro-content">
+            <div class="intro-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+            </div>
+            <h1>Changing Your Inner Voice</h1>
+            <p>The way you talk to yourself shapes how you see the world. Learning to shift negative self-talk is one of the most powerful changes you can make.</p>
+            <div class="intro-tagline">"Talk to yourself like someone you love."</div>
+            <button class="intro-btn" onclick="closeIntro()">Let Us Begin</button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                Teen Mental Health
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Emotions.html">Emotions</a></li>
+                <li><a href="Stress.html">Stress Management</a></li>
+                <li><a href="Care.html">Self-Care</a></li>
+                <li><a href="Talk.html" class="active">Positive Self-Talk</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <span class="page-badge">Module 4</span>
+            <h1>Positive Self-Talk</h1>
+            <p>Learn to recognize negative thought patterns and transform them into thoughts that support your growth and wellbeing.</p>
+        </div>
+    </section>
+
+    <!-- Content Section: Benefits -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="content-card">
+                <h2>
+                    <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span>
+                    Why Self-Talk Matters
+                </h2>
+                <div class="highlight-box">
+                    <p>Positive self-talk has been linked to higher life expectancy, reduced risk of cardiovascular disease, lower pain levels, and better mental health outcomes.</p>
+                </div>
+                <p>Your inner voice shapes your reality. When you constantly criticize yourself, you train your brain to see threats and failures everywhere. When you speak to yourself with kindness and encouragement, you build resilience and confidence.</p>
+                <p>The good news: self-talk is a habit, and habits can be changed. With practice, you can rewire how you respond to challenges.</p>
+            </div>
+
+            <div class="content-card">
+                <h2>
+                    <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></span>
+                    The Core Strategy
+                </h2>
+                <div class="highlight-box">
+                    <p>Identify negative self-talk, then shift your viewpoint to a more positive outlook.</p>
+                </div>
+                <p>Example: Turn "I always let my team down" into "I always try my best each game."</p>
+                <p>This is not about lying to yourself or ignoring problems. It is about being fair to yourself--giving yourself the same grace you would give a friend.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Negative Patterns Section -->
+    <section class="patterns-section" id="patterns">
+        <div class="section-container">
+            <div class="patterns-header">
+                <h2>Four Types of Negative Thinking</h2>
+                <p>Recognize these patterns so you can catch them in action.</p>
+            </div>
+
+            <div class="patterns-grid">
+                <div class="pattern-card">
+                    <div class="pattern-icon">1</div>
+                    <h3>Personalizing</h3>
+                    <p>Blaming yourself for everything, even things outside your control.</p>
+                    <div class="problem">Problem: "The project failed because of me."</div>
+                    <div class="solution">Solution: Identify what YOU specifically did wrong, not what others did.</div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-icon">2</div>
+                    <h3>Magnifying</h3>
+                    <p>Focusing only on the negative aspects while ignoring the positives.</p>
+                    <div class="problem">Problem: "I got one B, my grades are ruined."</div>
+                    <div class="solution">Solution: Also acknowledge what went well.</div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-icon">3</div>
+                    <h3>Catastrophizing</h3>
+                    <p>Expecting the worst to happen without any logical reason.</p>
+                    <div class="problem">Problem: "If I fail this test, my life is over."</div>
+                    <div class="solution">Solution: Apply logic and consider how you can handle the situation.</div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-icon">4</div>
+                    <h3>Polarizing</h3>
+                    <p>Seeing things as all good or all bad with no middle ground.</p>
+                    <div class="problem">Problem: "I am either perfect or a total failure."</div>
+                    <div class="solution">Solution: Find the opportunity and middle ground in every situation.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reframe Section -->
+    <section class="reframe-section" id="reframe">
+        <div class="reframe-container">
+            <div class="reframe-header">
+                <h2>Reframing in Action</h2>
+                <p>See how negative thoughts can be transformed into helpful ones.</p>
+            </div>
+
+            <div class="reframe-examples">
+                <div class="reframe-item">
+                    <div class="reframe-negative">
+                        <span>Negative</span>
+                        <p>"I am terrible at math."</p>
+                    </div>
+                    <div class="reframe-arrow">
+                        <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </div>
+                    <div class="reframe-positive">
+                        <span>Reframed</span>
+                        <p>"Math is challenging for me, and I am working to improve."</p>
+                    </div>
+                </div>
+
+                <div class="reframe-item">
+                    <div class="reframe-negative">
+                        <span>Negative</span>
+                        <p>"Nobody likes me."</p>
+                    </div>
+                    <div class="reframe-arrow">
+                        <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </div>
+                    <div class="reframe-positive">
+                        <span>Reframed</span>
+                        <p>"Making friends takes time. I have people who care about me."</p>
+                    </div>
+                </div>
+
+                <div class="reframe-item">
+                    <div class="reframe-negative">
+                        <span>Negative</span>
+                        <p>"I will never be good enough."</p>
+                    </div>
+                    <div class="reframe-arrow">
+                        <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </div>
+                    <div class="reframe-positive">
+                        <span>Reframed</span>
+                        <p>"I am enough as I am, and I am always growing."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mindset Section -->
+    <section class="mindset-section" id="mindset">
+        <div class="mindset-container">
+            <div class="mindset-card">
+                <h2>Growth vs. Fixed Mindset</h2>
+                <p>Your mindset--your beliefs about your abilities--shapes everything. A growth mindset means believing you can develop and improve.</p>
+
+                <div class="mindset-comparison">
+                    <div class="mindset-type fixed">
+                        <h3>Fixed Mindset</h3>
+                        <ul>
+                            <li>Believes abilities are set in stone</li>
+                            <li>Avoids challenges to prevent failure</li>
+                            <li>Gives up easily when things get hard</li>
+                            <li>Sees effort as pointless</li>
+                            <li>Feels threatened by others success</li>
+                        </ul>
+                    </div>
+
+                    <div class="mindset-type growth">
+                        <h3>Growth Mindset</h3>
+                        <ul>
+                            <li>Believes abilities can be developed</li>
+                            <li>Embraces challenges as opportunities</li>
+                            <li>Persists through obstacles</li>
+                            <li>Sees effort as the path to mastery</li>
+                            <li>Finds inspiration in others success</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Practice Section -->
+    <section class="practice-section" id="practice">
+        <div class="section-container">
+            <div class="practice-container">
+                <div class="practice-header">
+                    <h2>Practice: Reframe Your Thoughts</h2>
+                    <p>Transform a negative thought into a positive one.</p>
+                </div>
+
+                <div class="practice-content">
+                    <div class="practice-step-indicator">
+                        <div class="step-dot active" data-step="1"></div>
+                        <div class="step-dot" data-step="2"></div>
+                        <div class="step-dot" data-step="3"></div>
+                    </div>
+
+                    <!-- Step 1: Negative Thought -->
+                    <div class="practice-step active" id="practice-step-1">
+                        <p class="practice-question">What is a negative thought you have had recently?</p>
+                        <textarea class="practice-textarea" id="negative-input" placeholder="Write a thought that has been bothering you..."></textarea>
+                        <div class="practice-nav">
+                            <div></div>
+                            <button class="practice-btn next" onclick="nextPracticeStep()">
+                                Continue
+                                <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Reframe -->
+                    <div class="practice-step" id="practice-step-2">
+                        <p class="practice-question">Now reframe it. How could you think about this more kindly?</p>
+                        <textarea class="practice-textarea" id="positive-input" placeholder="Write a kinder, more balanced version..."></textarea>
+                        <div class="practice-nav">
+                            <button class="practice-btn prev" onclick="prevPracticeStep()">
+                                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                                Back
+                            </button>
+                            <button class="practice-btn next" onclick="nextPracticeStep()">
+                                See Results
+                                <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Results -->
+                    <div class="practice-step" id="practice-step-3">
+                        <div class="practice-results">
+                            <div class="results-icon">
+                                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            </div>
+                            <h3>Your Reframe</h3>
+                            
+                            <div class="reframe-result" id="reframe-result"></div>
+
+                            <div class="encouragement-box">
+                                <h4>Well done!</h4>
+                                <p id="encouragement-text">Every time you catch a negative thought and reframe it, you are building a new habit. Keep practicing--it gets easier.</p>
+                            </div>
+
+                            <div class="practice-nav" style="justify-content: center; margin-top: 2rem;">
+                                <button class="practice-btn next" onclick="resetPractice()">
+                                    Try Another
+                                    <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="quiz-section" id="quiz">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h2>Self-Check: Test Your Knowledge</h2>
+                <p>See how much you have learned about positive self-talk.</p>
+            </div>
+
+            <div class="quiz-progress">
+                <div class="quiz-progress-bar" id="quiz-progress-bar" style="width: 0%"></div>
+            </div>
+
+            <div id="quiz-content"></div>
+
+            <div class="quiz-results" id="quiz-results">
+                <div class="quiz-score-circle">
+                    <div class="quiz-score-value" id="quiz-score">0</div>
+                    <div class="quiz-score-label">out of 5</div>
+                </div>
+                <h3 id="quiz-result-title">Nice work!</h3>
+                <p id="quiz-result-message">You are learning to be kinder to yourself.</p>
+                <button class="practice-btn next" onclick="resetQuiz()" style="margin: 0 auto;">
+                    Try Again
+                    <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+                <span>Teen Mental Health Guide</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="#patterns">Patterns</a>
+                <a href="#practice">Practice</a>
+                <a href="#quiz">Self-Check</a>
+            </div>
+            <p class="footer-copy">(c) 2025 Teen Mental Health Guide. This site does not provide medical advice. If you are in crisis, please call 988.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== INTRO OVERLAY ====================
+        function closeIntro() {
+            document.getElementById('intro-overlay').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var hasSeenIntro = sessionStorage.getItem('talk_intro_seen');
+            if (hasSeenIntro) {
+                document.getElementById('intro-overlay').classList.add('hidden');
+            } else {
+                document.body.style.overflow = 'hidden';
+                sessionStorage.setItem('talk_intro_seen', 'true');
+            }
+            initQuiz();
+        });
+
+        // ==================== MOBILE MENU ====================
+        function toggleMobileMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // ==================== PRACTICE EXERCISE ====================
+        var practiceData = {
+            negative: '',
+            positive: ''
+        };
+        var currentPracticeStep = 1;
+
+        function updateStepIndicators() {
+            var dots = document.querySelectorAll('.step-dot');
+            dots.forEach(function(dot, i) {
+                dot.classList.remove('active', 'completed');
+                if (i + 1 === currentPracticeStep) {
+                    dot.classList.add('active');
+                } else if (i + 1 < currentPracticeStep) {
+                    dot.classList.add('completed');
+                }
+            });
+        }
+
+        function nextPracticeStep() {
+            if (currentPracticeStep === 1) {
+                practiceData.negative = document.getElementById('negative-input').value;
+            } else if (currentPracticeStep === 2) {
+                practiceData.positive = document.getElementById('positive-input').value;
+                showPracticeResults();
+            }
+            
+            document.getElementById('practice-step-' + currentPracticeStep).classList.remove('active');
+            currentPracticeStep++;
+            document.getElementById('practice-step-' + currentPracticeStep).classList.add('active');
+            updateStepIndicators();
+        }
+
+        function prevPracticeStep() {
+            document.getElementById('practice-step-' + currentPracticeStep).classList.remove('active');
+            currentPracticeStep--;
+            document.getElementById('practice-step-' + currentPracticeStep).classList.add('active');
+            updateStepIndicators();
+        }
+
+        function showPracticeResults() {
+            var resultHTML = '<div class="reframe-result-item">' +
+                '<div class="reframe-result-label negative">Original Thought</div>' +
+                '<div class="reframe-result-text">' + (practiceData.negative || 'Not specified') + '</div>' +
+                '</div>' +
+                '<div class="reframe-result-item">' +
+                '<div class="reframe-result-label positive">Reframed Thought</div>' +
+                '<div class="reframe-result-text">' + (practiceData.positive || 'Not specified') + '</div>' +
+                '</div>';
+            
+            document.getElementById('reframe-result').innerHTML = resultHTML;
+
+            var encouragements = [
+                "Every time you catch a negative thought and reframe it, you are building a new habit. Keep practicing--it gets easier.",
+                "You just took a powerful step. The more you practice reframing, the more automatic it becomes.",
+                "Notice how the reframed thought feels different? That is your brain learning a healthier pattern.",
+                "Great work! Try to catch one negative thought each day this week and reframe it.",
+                "Remember: this is not about pretending everything is perfect. It is about being fair to yourself."
+            ];
+            
+            var randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
+            document.getElementById('encouragement-text').textContent = randomEncouragement;
+        }
+
+        function resetPractice() {
+            practiceData = { negative: '', positive: '' };
+            currentPracticeStep = 1;
+            document.getElementById('negative-input').value = '';
+            document.getElementById('positive-input').value = '';
+            
+            var steps = document.querySelectorAll('.practice-step');
+            steps.forEach(function(s) { s.classList.remove('active'); });
+            document.getElementById('practice-step-1').classList.add('active');
+            updateStepIndicators();
+        }
+
+        // ==================== QUIZ ====================
+        var quizQuestions = [
+            {
+                question: "What is the main strategy for combating negative self-talk?",
+                options: [
+                    "Ignore all negative thoughts completely",
+                    "Identify negative thoughts and shift to a more positive viewpoint",
+                    "Only think positive thoughts 100% of the time",
+                    "Avoid situations that cause negative thoughts"
+                ],
+                correct: 1,
+                explanation: "The key is to recognize negative self-talk and then reframe it into a more balanced, helpful perspective."
+            },
+            {
+                question: "What is 'catastrophizing'?",
+                options: [
+                    "Blaming yourself for everything",
+                    "Seeing things as all good or all bad",
+                    "Expecting the worst to happen without logical reason",
+                    "Focusing only on negative aspects"
+                ],
+                correct: 2,
+                explanation: "Catastrophizing is when you expect the worst possible outcome without any logical basis for that expectation."
+            },
+            {
+                question: "What is a growth mindset?",
+                options: [
+                    "Believing your abilities are fixed and cannot change",
+                    "Thinking you are better than others",
+                    "Believing your abilities can be developed through effort",
+                    "Avoiding all challenges"
+                ],
+                correct: 2,
+                explanation: "A growth mindset means believing that your abilities and intelligence can be developed through dedication and hard work."
+            },
+            {
+                question: "Which is a good example of reframing?",
+                options: [
+                    "I failed to I am a failure",
+                    "I am bad at math to Math is challenging and I am working to improve",
+                    "Nobody likes me to Everyone hates me",
+                    "I made a mistake to I always mess up"
+                ],
+                correct: 1,
+                explanation: "Good reframing acknowledges the challenge while also recognizing your effort and potential for growth."
+            },
+            {
+                question: "What health benefits are linked to positive self-talk?",
+                options: [
+                    "Only mental health benefits",
+                    "No real benefits, it is just being nice",
+                    "Higher life expectancy and reduced cardiovascular risk",
+                    "It only helps with school grades"
+                ],
+                correct: 2,
+                explanation: "Research shows positive self-talk is linked to higher life expectancy, reduced cardiovascular risk, lower pain levels, and better mental health."
+            }
+        ];
+
+        var currentQuizQuestion = 0;
+        var quizAnswers = [];
+        var quizScore = 0;
+
+        function initQuiz() {
+            currentQuizQuestion = 0;
+            quizAnswers = [];
+            quizScore = 0;
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            var q = quizQuestions[currentQuizQuestion];
+            var progress = ((currentQuizQuestion) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = progress + '%';
+
+            var optionsHTML = '';
+            q.options.forEach(function(opt, i) {
+                optionsHTML += '<div class="quiz-option" onclick="selectQuizAnswer(' + i + ', this)">' +
+                    '<span class="option-letter">' + String.fromCharCode(65 + i) + '</span>' +
+                    '<span>' + opt + '</span>' +
+                    '</div>';
+            });
+
+            document.getElementById('quiz-content').innerHTML = 
+                '<div class="quiz-question-container">' +
+                    '<div class="quiz-question-number">Question ' + (currentQuizQuestion + 1) + ' of ' + quizQuestions.length + '</div>' +
+                    '<div class="quiz-question-text">' + q.question + '</div>' +
+                    '<div class="quiz-options">' + optionsHTML + '</div>' +
+                    '<div class="quiz-feedback" id="quiz-feedback"></div>' +
+                '</div>' +
+                '<div class="quiz-nav">' +
+                    '<div></div>' +
+                    '<button class="quiz-btn primary" id="quiz-next-btn" onclick="nextQuizQuestion()" disabled>' +
+                        (currentQuizQuestion === quizQuestions.length - 1 ? 'See Results' : 'Next Question') +
+                        '<svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>' +
+                    '</button>' +
+                '</div>';
+        }
+
+        function selectQuizAnswer(index, element) {
+            if (quizAnswers[currentQuizQuestion] !== undefined) return;
+            
+            quizAnswers[currentQuizQuestion] = index;
+            var q = quizQuestions[currentQuizQuestion];
+            var isCorrect = index === q.correct;
+            
+            if (isCorrect) quizScore++;
+
+            var options = document.querySelectorAll('.quiz-option');
+            options.forEach(function(opt, i) {
+                opt.style.pointerEvents = 'none';
+                if (i === q.correct) {
+                    opt.classList.add('correct');
+                } else if (i === index && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            var feedback = document.getElementById('quiz-feedback');
+            feedback.className = 'quiz-feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+            feedback.innerHTML = '<h4>' + (isCorrect ? 'Correct!' : 'Not quite') + '</h4><p>' + q.explanation + '</p>';
+
+            document.getElementById('quiz-next-btn').disabled = false;
+        }
+
+        function nextQuizQuestion() {
+            if (currentQuizQuestion < quizQuestions.length - 1) {
+                currentQuizQuestion++;
+                renderQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('quiz-progress-bar').style.width = '100%';
+            
+            var results = document.getElementById('quiz-results');
+            results.classList.add('show');
+            
+            document.getElementById('quiz-score').textContent = quizScore;
+            
+            var title, message;
+            if (quizScore === 5) {
+                title = "Perfect score!";
+                message = "You have an excellent understanding of positive self-talk and how to use it.";
+            } else if (quizScore >= 3) {
+                title = "Nice work!";
+                message = "You are learning to be kinder to yourself. Keep practicing those reframes!";
+            } else {
+                title = "Keep learning!";
+                message = "Changing self-talk takes time. Re-read the content above and try again.";
+            }
+            
+            document.getElementById('quiz-result-title').textContent = title;
+            document.getElementById('quiz-result-message').textContent = message;
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-results').classList.remove('show');
+            document.getElementById('quiz-content').style.display = 'block';
+            initQuiz();
+        }
+
+        // Smooth scroll
+        var anchors = document.querySelectorAll('a[href^="#"]');
+        anchors.forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
