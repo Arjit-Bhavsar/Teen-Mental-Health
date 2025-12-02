@@ -1552,11 +1552,11 @@
                 <div class="exercise-content">
                     <div class="breathing-visual">
                         <div class="breathing-ring"></div>
-                        <div class="breathing-ring-progress" id="478-ring"></div>
-                        <div class="breathing-circle" id="478-circle">
-                            <span class="breathing-text" id="478-text">Ready</span>
+                        <div class="breathing-ring-progress" id="b478-ring"></div>
+                        <div class="breathing-circle" id="b478-circle">
+                            <span class="breathing-text" id="b478-text">Ready</span>
                         </div>
-                        <div class="breathing-timer" id="478-timer">4</div>
+                        <div class="breathing-timer" id="b478-timer">4</div>
                     </div>
 
                     <div class="breathing-instructions">
@@ -1564,17 +1564,17 @@
                     </div>
 
                     <div class="breathing-controls">
-                        <button class="breathing-btn primary" id="478-start-btn" onclick="start478Breathing()">
+                        <button class="breathing-btn primary" id="b478-start-btn" onclick="start478Breathing()">
                             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             Start Exercise
                         </button>
-                        <button class="breathing-btn secondary" id="478-stop-btn" onclick="stop478Breathing()" style="display: none;">
+                        <button class="breathing-btn secondary" id="b478-stop-btn" onclick="stop478Breathing()" style="display: none;">
                             <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
                             Stop
                         </button>
                     </div>
 
-                    <div class="cycle-counter" id="478-cycles">
+                    <div class="cycle-counter" id="b478-cycles">
                         <div class="cycle-dot"></div>
                         <div class="cycle-dot"></div>
                         <div class="cycle-dot"></div>
@@ -2282,32 +2282,31 @@
         var breathing478Cycle = 0;
         var breathing478Count = 4;
         var breathing478Running = false;
-        var breathing478Durations = [4, 7, 8];
 
         function start478Breathing() {
             if (breathing478Running) return;
             breathing478Running = true;
             breathing478Phase = 0;
             breathing478Cycle = 0;
-            breathing478Count = breathing478Durations[0];
+            breathing478Count = 4;
             
-            document.getElementById('478-start-btn').style.display = 'none';
-            document.getElementById('478-stop-btn').style.display = 'flex';
-            document.getElementById('478-ring').classList.add('animating');
+            document.getElementById('b478-start-btn').style.display = 'none';
+            document.getElementById('b478-stop-btn').style.display = 'flex';
+            document.getElementById('b478-ring').classList.add('animating');
             
-            resetCycleDots('478-cycles');
+            resetCycleDots('b478-cycles');
             run478Phase();
         }
 
         function run478Phase() {
-            var circle = document.getElementById('478-circle');
-            var text = document.getElementById('478-text');
-            var timer = document.getElementById('478-timer');
+            var circle = document.getElementById('b478-circle');
+            var text = document.getElementById('b478-text');
+            var timer = document.getElementById('b478-timer');
             
             // Remove all classes
             circle.classList.remove('inhale', 'exhale', 'hold');
             
-            // Set phase
+            // Set phase and duration
             if (breathing478Phase === 0) {
                 text.textContent = 'Breathe In';
                 circle.classList.add('inhale');
@@ -2335,7 +2334,7 @@
                     if (breathing478Phase > 2) {
                         breathing478Phase = 0;
                         breathing478Cycle++;
-                        updateCycleDot('478-cycles', breathing478Cycle - 1);
+                        updateCycleDot('b478-cycles', breathing478Cycle - 1);
                         
                         if (breathing478Cycle >= 4) {
                             complete478Breathing();
@@ -2353,32 +2352,32 @@
             clearInterval(breathing478Interval);
             clearTimeout(breathing478Timeout);
             
-            document.getElementById('478-start-btn').style.display = 'flex';
-            document.getElementById('478-stop-btn').style.display = 'none';
-            document.getElementById('478-ring').classList.remove('animating');
+            document.getElementById('b478-start-btn').style.display = 'flex';
+            document.getElementById('b478-stop-btn').style.display = 'none';
+            document.getElementById('b478-ring').classList.remove('animating');
             
-            var circle = document.getElementById('478-circle');
+            var circle = document.getElementById('b478-circle');
             circle.classList.remove('inhale', 'exhale', 'hold');
-            document.getElementById('478-text').textContent = 'Ready';
-            document.getElementById('478-timer').textContent = '4';
+            document.getElementById('b478-text').textContent = 'Ready';
+            document.getElementById('b478-timer').textContent = '4';
             
-            resetCycleDots('478-cycles');
+            resetCycleDots('b478-cycles');
         }
 
         function complete478Breathing() {
             breathing478Running = false;
             clearInterval(breathing478Interval);
             
-            var circle = document.getElementById('478-circle');
+            var circle = document.getElementById('b478-circle');
             circle.classList.remove('inhale', 'exhale', 'hold');
-            document.getElementById('478-text').textContent = 'Done!';
-            document.getElementById('478-ring').classList.remove('animating');
+            document.getElementById('b478-text').textContent = 'Done!';
+            document.getElementById('b478-ring').classList.remove('animating');
             
             setTimeout(function() {
-                document.getElementById('478-start-btn').style.display = 'flex';
-                document.getElementById('478-stop-btn').style.display = 'none';
-                document.getElementById('478-text').textContent = 'Ready';
-                document.getElementById('478-timer').textContent = '4';
+                document.getElementById('b478-start-btn').style.display = 'flex';
+                document.getElementById('b478-stop-btn').style.display = 'none';
+                document.getElementById('b478-text').textContent = 'Ready';
+                document.getElementById('b478-timer').textContent = '4';
             }, 2000);
         }
 
