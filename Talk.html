@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-R2H27BSZR0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-R2H27BSZR0');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Positive Self-Talk | Teen Mental Health Guide</title>
@@ -218,6 +209,15 @@
         }
         .nav-links a:hover { color: var(--text-primary); background: var(--cream-dark); }
         .nav-links a.active { color: var(--talk-purple-dark); background: rgba(155, 89, 182, 0.12); }
+        .nav-links a.nav-learning { 
+            background: linear-gradient(135deg, var(--sage) 0%, var(--sky-blue) 100%);
+            color: white;
+            font-weight: 600;
+        }
+        .nav-links a.nav-learning:hover { 
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -1114,10 +1114,11 @@
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="Emotions.html">Emotions</a></li>
-                <li><a href="Stress.html">Stress Management</a></li>
-                <li><a href="Care.html">Self-Care</a></li>
-                <li><a href="Talk.html" class="active">Positive Self-Talk</a></li>
+                <li><a href="emotions.html">Emotions</a></li>
+                <li><a href="stress.html">Stress</a></li>
+                <li><a href="care.html">Self-Care</a></li>
+                <li><a href="talk.html" class="active">Self-Talk</a></li>
+                <li><a href="learning-center.html" class="nav-learning">Learning Center</a></li>
             </ul>
             <button class="mobile-menu-btn" aria-label="Toggle menu" onclick="toggleMobileMenu()">
                 <span></span><span></span><span></span>
