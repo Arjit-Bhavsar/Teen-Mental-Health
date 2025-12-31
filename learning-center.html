@@ -1,17 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R2H27BSZR0"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-R2H27BSZR0');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learning Center | Teen Mental Health Guide</title>
+    <title>Learning Center | Wyoming Teen Mental Health</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -29,6 +21,9 @@
             --night-light: #4A5254;
             --rust: #C17B5E;
             --rust-dark: #A65D40;
+            --purple: #8B7BB8;
+            --purple-dark: #6B5B98;
+            --teal: #1ABC9C;
             
             --text-primary: #2D3436;
             --text-secondary: #636E72;
@@ -48,15 +43,17 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
+        
         body {
             font-family: var(--font-body);
-            background-color: var(--cream);
+            background: linear-gradient(180deg, #E8EEF4 0%, #F0F4F8 50%, var(--cream) 100%);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* Grain texture */
+        /* Grain texture overlay */
         body::before {
             content: '';
             position: fixed;
@@ -67,133 +64,329 @@
             z-index: 9999;
         }
 
-        /* Navigation */
-        .navbar {
+        /* ==================== LOGIN SCREEN ==================== */
+        .login-screen {
             position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 1rem 2rem;
-            background: rgba(247, 245, 240, 0.92);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--night) 0%, var(--sage-dark) 50%, var(--sky-blue) 100%);
+            z-index: 10000;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        .logo {
+
+        .login-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-strong);
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--sky-blue) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .login-logo-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .login-logo h1 {
             font-family: var(--font-display);
             font-size: 1.5rem;
-            font-weight: 700;
             color: var(--night);
-            text-decoration: none;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-logo p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .login-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--cream-dark);
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: none;
+            border: none;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .login-tab.active {
+            color: var(--sage-dark);
+        }
+
+        .login-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--sage);
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--night);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid var(--cream-dark);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--sage);
+        }
+
+        .form-error {
+            color: var(--rust);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .login-divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .login-guest {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--cream);
+            color: var(--night);
+            border: 2px solid var(--cream-dark);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .login-guest:hover {
+            border-color: var(--sage);
+            background: var(--cream-dark);
+        }
+
+        /* ==================== MAIN APP LAYOUT ==================== */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .app-container.active {
+            display: flex;
+        }
+
+        /* Left Sidebar */
+        .sidebar-left {
+            width: 280px;
+            background: white;
+            border-right: 1px solid var(--border-light);
+            padding: 1.5rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            color: var(--night);
         }
-        .logo-mark {
-            width: 36px; height: 36px;
+
+        .sidebar-logo-icon {
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--sage) 0%, var(--sky-blue) 100%);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .logo-mark svg { width: 20px; height: 20px; fill: white; }
-        .nav-links {
-            display: flex;
-            gap: 0.5rem;
-            list-style: none;
-        }
-        .nav-links a {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 0.6rem 1.1rem;
-            border-radius: var(--radius-sm);
-            transition: var(--transition);
-        }
-        .nav-links a:hover { color: var(--text-primary); background: var(--cream-dark); }
-        .nav-links a.active { color: var(--sage-dark); background: rgba(125, 155, 118, 0.12); }
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-        .mobile-menu-btn span {
-            display: block;
-            width: 22px; height: 2px;
-            background: var(--night);
-            margin: 5px 0;
-            transition: var(--transition);
+
+        .sidebar-logo-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
         }
 
-        /* Learning Center Layout */
-        .learning-center {
-            min-height: 100vh;
-            padding: 6rem 0 2rem;
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 0;
-        }
-
-        /* Left Sidebar */
-        .sidebar {
-            background: white;
-            border-right: 1px solid var(--border-light);
-            padding: 2rem 1.5rem;
-            position: sticky;
-            top: 80px;
-            height: calc(100vh - 80px);
-            overflow-y: auto;
+        .sidebar-logo span {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
         }
 
         .progress-section {
-            margin-bottom: 2rem;
+            background: var(--cream);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
-        .progress-title {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--night);
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 1rem;
         }
 
+        .progress-header h3 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--night);
+        }
+
+        .streak-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: linear-gradient(135deg, var(--rust) 0%, #E67E22 100%);
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .streak-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: white;
+        }
+
         .progress-bar-container {
-            width: 100%;
-            height: 12px;
             background: var(--cream-dark);
-            border-radius: 100px;
+            border-radius: 10px;
+            height: 12px;
             overflow: hidden;
             margin-bottom: 0.5rem;
         }
 
-        .progress-bar {
+        .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--sage) 0%, var(--sky-blue) 100%);
-            border-radius: 100px;
-            transition: width 0.4s ease;
-            width: 25%;
+            background: linear-gradient(90deg, var(--sage) 0%, var(--teal) 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
         }
 
-        .progress-text {
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
             font-size: 0.85rem;
             color: var(--text-secondary);
         }
 
         .section-outline {
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
-        .outline-title {
-            font-size: 0.9rem;
+        .section-outline h4 {
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -201,782 +394,1703 @@
             margin-bottom: 1rem;
         }
 
+        .outline-list {
+            list-style: none;
+        }
+
         .outline-item {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             transition: var(--transition);
-        }
-
-        .outline-item:last-child { border-bottom: none; }
-
-        .outline-item:hover {
-            color: var(--sage-dark);
-            padding-left: 0.5rem;
-        }
-
-        .outline-item.active {
-            color: var(--sage-dark);
-            font-weight: 600;
-            border-left: 3px solid var(--sage);
-            padding-left: 0.75rem;
-        }
-
-        .outline-item-name {
-            font-size: 0.9rem;
             margin-bottom: 0.25rem;
         }
 
-        .outline-item-progress {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        /* Main Content Area */
-        .main-content {
-            padding: 2rem 3rem;
-            max-width: 1200px;
-        }
-
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .content-title {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--night);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .home-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .home-link:hover {
-            color: var(--sage-dark);
-        }
-
-        .settings-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+        .outline-item:hover {
             background: var(--cream);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
         }
 
-        .settings-btn:hover {
-            background: var(--cream-dark);
+        .outline-item.active {
+            background: rgba(125, 155, 118, 0.15);
         }
 
-        .settings-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--text-secondary);
-        }
-
-        /* Pathway Section */
-        .pathway-section {
-            margin-bottom: 5rem;
-            display: none;
-        }
-
-        .pathway-section.active {
-            display: block;
-        }
-
-        .pathway-title {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            color: var(--night);
-            margin-bottom: 1rem;
-        }
-
-        .pathway-description {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            margin-bottom: 3rem;
-            max-width: 600px;
-        }
-
-        /* Hexagon Pathway */
-        .pathway-container {
-            position: relative;
-            min-height: 600px;
-            padding: 2rem 0;
-        }
-
-        .hexagon-path {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-        }
-
-        .hexagon {
-            width: 120px;
-            height: 120px;
-            position: relative;
-            margin: 20px 0;
-            cursor: pointer;
-            transition: var(--transition);
-            z-index: 2;
-            text-decoration: none;
-            display: block;
-        }
-
-        .hexagon svg {
-            width: 120px;
-            height: 120px;
-            transition: var(--transition);
-        }
-
-        .hexagon-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            background: var(--cream-dark);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0.75rem;
-            border-radius: 8px;
-            transition: var(--transition);
-            pointer-events: none;
-        }
-
-        .hexagon:hover .hexagon-content {
-            background: white;
-            box-shadow: var(--shadow-medium);
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        .hexagon.completed .hexagon-content {
+        .outline-item.completed .outline-number {
             background: var(--sage);
             color: white;
         }
 
-        .hexagon.completed svg polygon {
-            fill: var(--sage);
-            stroke: var(--sage-dark);
+        .outline-item.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .hexagon.active .hexagon-content {
-            background: var(--sky-blue);
-            color: white;
-            box-shadow: var(--shadow-strong);
-        }
-
-        .hexagon.active svg polygon {
-            fill: var(--sky-blue);
-            stroke: var(--sky-light);
-        }
-
-        .hexagon-number {
-            font-size: 0.75rem;
+        .outline-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--cream-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
             font-weight: 600;
-            opacity: 0.7;
-            margin-bottom: 0.25rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
         }
 
-        .hexagon-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            line-height: 1.2;
+        .outline-text {
+            font-size: 0.9rem;
+            color: var(--night);
+            line-height: 1.3;
         }
 
-        /* Connection Lines */
-        .pathway-connector {
-            position: absolute;
-            width: 3px;
-            background: var(--night);
-            opacity: 0.2;
-            z-index: 1;
+        .outline-item.completed .outline-number::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") center/contain no-repeat;
         }
 
-        .pathway-connector.vertical {
-            height: 40px;
-            left: 50%;
-            transform: translateX(-50%);
+        .outline-item.completed .outline-number {
+            font-size: 0;
         }
 
-        /* Lesson Tooltip */
-        .lesson-tooltip {
-            position: absolute;
-            right: -280px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 260px;
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-strong);
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition);
-            z-index: 10;
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            margin-right: 280px;
+            padding: 2rem;
+            min-height: 100vh;
         }
 
-        .hexagon:hover .lesson-tooltip {
-            opacity: 1;
-            pointer-events: auto;
+        .content-header {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        .tooltip-title {
+        .content-header h1 {
             font-family: var(--font-display);
-            font-size: 1.1rem;
+            font-size: 2rem;
             color: var(--night);
             margin-bottom: 0.5rem;
         }
 
-        .tooltip-description {
+        .content-header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        /* Main Progress Bar on Pathway View */
+        .main-progress-bar {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .main-progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .main-progress-header h3 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--night);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-progress-header h3 svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--sage);
+        }
+
+        .main-progress-percent {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--sage-dark);
+        }
+
+        .main-progress-track {
+            background: var(--cream-dark);
+            border-radius: 12px;
+            height: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .main-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sage) 0%, var(--teal) 50%, var(--sky-blue) 100%);
+            border-radius: 12px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .main-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .main-progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.75rem;
             font-size: 0.9rem;
             color: var(--text-secondary);
-            line-height: 1.6;
         }
 
-        /* Responsive */
-        @media (max-width: 992px) {
-            .learning-center {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: relative;
-                top: 0;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid var(--border-light);
-            }
-
-            .main-content {
-                padding: 2rem 1.5rem;
-            }
-
-            .lesson-tooltip {
-                position: fixed;
-                right: 1rem;
-                top: auto;
-                bottom: 1rem;
-                transform: none;
-            }
+        .main-progress-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
         }
 
-        @media (max-width: 768px) {
-            .navbar { padding: 0.9rem 1.5rem; }
-            .nav-links {
+        .main-progress-stats svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Pathway Map */
+        .pathway-container {
+            position: relative;
+            padding: 2rem 0;
+            min-height: 600px;
+        }
+
+        .pathway-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pathway-line {
+            stroke: var(--cream-dark);
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .pathway-line.completed {
+            stroke: var(--sage);
+        }
+
+        .pathway-nodes {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pathway-row {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .pathway-row.offset {
+            margin-left: 80px;
+        }
+
+        .pathway-row.offset-left {
+            margin-left: -80px;
+        }
+
+        /* Hexagon Nodes */
+        .hex-node {
+            position: relative;
+            width: 100px;
+            height: 115px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .hex-node:hover {
+            transform: scale(1.08);
+        }
+
+        .hex-node.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .hex-node.locked:hover {
+            transform: none;
+        }
+
+        .hex-shape {
+            width: 100%;
+            height: 100%;
+            background: var(--cream-dark);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .hex-node.available .hex-shape {
+            background: white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .hex-node.completed .hex-shape {
+            background: linear-gradient(135deg, var(--sage) 0%, var(--teal) 100%);
+        }
+
+        .hex-node.current .hex-shape {
+            background: linear-gradient(135deg, var(--sky-blue) 0%, var(--purple) 100%);
+            animation: pulse-hex 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-hex {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(107, 155, 195, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(107, 155, 195, 0); }
+        }
+
+        .hex-content {
+            text-align: center;
+            color: var(--night);
+            padding: 0.5rem;
+        }
+
+        .hex-node.completed .hex-content,
+        .hex-node.current .hex-content {
+            color: white;
+        }
+
+        .hex-icon {
+            width: 28px;
+            height: 28px;
+            margin: 0 auto 0.25rem;
+        }
+
+        .hex-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+        }
+
+        .hex-number {
+            font-size: 0.75rem;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        /* Tooltip */
+        .hex-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--night);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 100;
+            max-width: 250px;
+            white-space: normal;
+            text-align: center;
+        }
+
+        .hex-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: var(--night);
+        }
+
+        .hex-node:hover .hex-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hex-tooltip-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .hex-tooltip-time {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* Right Sidebar */
+        .sidebar-right {
+            width: 280px;
+            background: white;
+            border-left: 1px solid var(--border-light);
+            padding: 1.5rem;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--sky-blue) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .user-info h4 {
+            font-size: 0.95rem;
+            color: var(--night);
+            margin-bottom: 0.1rem;
+        }
+
+        .user-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .quick-actions {
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-actions h4 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background: var(--cream);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--night);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            background: var(--cream-dark);
+            transform: translateX(4px);
+        }
+
+        .action-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-secondary);
+        }
+
+        .action-btn.danger {
+            color: var(--rust);
+        }
+
+        .action-btn.danger svg {
+            fill: var(--rust);
+        }
+
+        .crisis-box {
+            background: linear-gradient(135deg, rgba(193, 123, 94, 0.1) 0%, rgba(193, 123, 94, 0.05) 100%);
+            border: 2px solid var(--rust);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .crisis-box h4 {
+            color: var(--rust-dark);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .crisis-box p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .crisis-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--rust);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .crisis-btn:hover {
+            background: var(--rust-dark);
+        }
+
+        /* ==================== LESSON VIEW ==================== */
+        .lesson-view {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-view.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .lesson-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lesson-back:hover {
+            color: var(--night);
+        }
+
+        .lesson-back svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .lesson-header {
+            margin-bottom: 2rem;
+        }
+
+        .lesson-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            background: rgba(125, 155, 118, 0.15);
+            color: var(--sage-dark);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .lesson-header h1 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--night);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .lesson-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .lesson-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .lesson-meta svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .lesson-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .lesson-section {
+            margin-bottom: 2rem;
+        }
+
+        .lesson-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .lesson-section h2 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            color: var(--night);
+            margin-bottom: 1rem;
+        }
+
+        .lesson-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--night);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .lesson-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .lesson-section ul, .lesson-section ol {
+            color: var(--text-secondary);
+            margin: 1rem 0 1rem 1.5rem;
+            line-height: 1.8;
+        }
+
+        .lesson-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(107, 155, 195, 0.1) 0%, rgba(125, 155, 118, 0.1) 100%);
+            border-left: 4px solid var(--sage);
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--night);
+            font-weight: 500;
+        }
+
+        .stat-box {
+            background: var(--cream);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--rust);
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .wyoming-callout {
+            background: linear-gradient(135deg, rgba(201, 184, 150, 0.2) 0%, rgba(139, 115, 85, 0.1) 100%);
+            border: 2px solid var(--prairie);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .wyoming-callout h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            color: var(--earth);
+            margin-bottom: 0.75rem;
+        }
+
+        .wyoming-callout p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .lesson-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .lesson-nav-btn.secondary {
+            background: var(--cream);
+            color: var(--night);
+            border: none;
+        }
+
+        .lesson-nav-btn.secondary:hover {
+            background: var(--cream-dark);
+        }
+
+        .lesson-nav-btn.primary {
+            background: var(--night);
+            color: white;
+            border: none;
+        }
+
+        .lesson-nav-btn.primary:hover {
+            background: var(--sage-dark);
+        }
+
+        .lesson-nav-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1200px) {
+            .sidebar-right {
                 display: none;
-                position: absolute;
-                top: 100%; left: 0; right: 0;
-                background: var(--cream);
-                flex-direction: column;
-                padding: 1.5rem;
-                gap: 0.5rem;
-                border-bottom: 1px solid var(--border-light);
             }
-            .nav-links.active { display: flex; }
-            .mobile-menu-btn { display: block; }
-            .content-title { font-size: 1.75rem; }
-            .hexagon {
-                width: 100px;
-                height: 100px;
+            .main-content {
+                margin-right: 0;
             }
-            .hexagon svg {
-                width: 100px;
-                height: 100px;
+        }
+
+        @media (max-width: 900px) {
+            .sidebar-left {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
             }
+            .sidebar-left.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            background: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-medium);
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--night);
+            margin: 4px auto;
+            transition: var(--transition);
+        }
+
+        /* Pathway Map View Toggle */
+        .pathway-view {
+            display: block;
+        }
+
+        .pathway-view.hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-mark">
+    <!-- Login Screen -->
+    <div class="login-screen" id="login-screen">
+        <div class="login-container">
+            <div class="login-logo">
+                <div class="login-logo-icon">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                 </div>
-                Teen Mental Health
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="LearningCenter.html" class="active">Learning Center</a></li>
-            </ul>
-            <button class="mobile-menu-btn" aria-label="Toggle menu" onclick="toggleMobileMenu()">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </nav>
+                <h1>Learning Center</h1>
+                <p>Wyoming Teen Mental Health</p>
+            </div>
 
-    <!-- Learning Center -->
-    <div class="learning-center">
-        <!-- Left Sidebar -->
-        <aside class="sidebar">
-            <div class="progress-section">
-                <h2 class="progress-title">My Progress</h2>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="overall-progress"></div>
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="switchLoginTab('login')">Sign In</button>
+                <button class="login-tab" onclick="switchLoginTab('register')">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="login-form active" id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="your@email.com" required>
                 </div>
-                <p class="progress-text" id="progress-text">25% Complete</p>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <p class="form-error" id="login-error">Invalid email or password</p>
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+
+            <!-- Register Form -->
+            <form class="login-form" id="register-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="register-name">Your Name</label>
+                    <input type="text" id="register-name" placeholder="What should we call you?" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password (6+ characters)" required minlength="6">
+                </div>
+                <p class="form-error" id="register-error">An account with this email already exists</p>
+                <button type="submit" class="login-btn">Create Account</button>
+            </form>
+
+            <div class="login-divider">or</div>
+            <button class="login-guest" onclick="guestLogin()">Continue as Guest</button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="app-container">
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Left Sidebar -->
+        <aside class="sidebar-left" id="sidebar-left">
+            <a href="index.html" class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <span>Teen Mental Health</span>
+            </a>
+
+            <div class="progress-section">
+                <div class="progress-header">
+                    <h3>My Progress</h3>
+                    <div class="streak-badge">
+                        <svg viewBox="0 0 24 24"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg>
+                        <span id="streak-count">0</span> day streak
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="progress-stats">
+                    <span><span id="completed-count">0</span> of 9 lessons</span>
+                    <span id="progress-percent">0%</span>
+                </div>
             </div>
 
             <div class="section-outline">
-                <h3 class="outline-title">Sections</h3>
-                <div class="outline-item active" onclick="showPathway('emotions')">
-                    <div class="outline-item-name">Understanding Emotions</div>
-                    <div class="outline-item-progress">0/5 lessons</div>
-                </div>
-                <div class="outline-item" onclick="showPathway('stress')">
-                    <div class="outline-item-name">Stress Management</div>
-                    <div class="outline-item-progress">0/5 lessons</div>
-                </div>
-                <div class="outline-item" onclick="showPathway('care')">
-                    <div class="outline-item-name">Self-Care</div>
-                    <div class="outline-item-progress">0/5 lessons</div>
-                </div>
-                <div class="outline-item" onclick="showPathway('talk')">
-                    <div class="outline-item-name">Positive Self-Talk</div>
-                    <div class="outline-item-progress">0/5 lessons</div>
-                </div>
+                <h4>Understanding Depression</h4>
+                <ul class="outline-list" id="outline-list">
+                    <!-- Populated by JavaScript -->
+                </ul>
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="content-header">
-                <h1 class="content-title">Learning Center</h1>
-                <div class="header-actions">
-                    <a href="index.html" class="home-link">Link to Homepage</a>
-                    <button class="settings-btn" aria-label="Settings">
-                        <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4 2.81c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-                    </button>
+            <!-- Pathway View -->
+            <div class="pathway-view" id="pathway-view">
+                <div class="content-header">
+                    <h1>Understanding Depression</h1>
+                    <p>A complete guide for Wyoming teens - learn about depression, recognize the signs, and find help.</p>
+                </div>
+
+                <!-- Main Progress Bar -->
+                <div class="main-progress-bar">
+                    <div class="main-progress-header">
+                        <h3>
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            Course Progress
+                        </h3>
+                        <span class="main-progress-percent" id="main-progress-percent">0%</span>
+                    </div>
+                    <div class="main-progress-track">
+                        <div class="main-progress-fill" id="main-progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="main-progress-stats">
+                        <span>
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            <span id="main-completed-count">0</span> lessons completed
+                        </span>
+                        <span>
+                            <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                            ~60 min total
+                        </span>
+                    </div>
+                </div>
+
+                <div class="pathway-container" id="pathway-container">
+                    <!-- Pathway nodes generated by JavaScript -->
                 </div>
             </div>
 
-            <!-- Emotions Pathway -->
-            <section class="pathway-section active" id="pathway-emotions">
-                <h2 class="pathway-title">Understanding Emotions</h2>
-                <p class="pathway-description">Learn to identify, process, and express your feelings in healthy ways that strengthen your mental health.</p>
-                
-                <div class="pathway-container">
-                    <div class="hexagon-path">
-                        <a href="lesson-emotions-1.html" class="hexagon" data-lesson="1" onmouseenter="showTooltip(this, 'What Are Emotions?', 'Emotions are conscious mental reactions to events, people, or thoughts. They create physical sensations in your body and influence how you behave.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 1</div>
-                                <div class="hexagon-title">What Are Emotions?</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">What Are Emotions?</div>
-                                <div class="tooltip-description">Emotions are conscious mental reactions to events, people, or thoughts. They create physical sensations in your body and influence how you behave.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 124px; height: 40px;"></div>
-                        
-                        <a href="lesson-emotions-2.html" class="hexagon" data-lesson="2" onmouseenter="showTooltip(this, 'Why Teens Feel More Intensely', 'During adolescence, the emotional centers of your brain develop faster than the prefrontal cortex. This imbalance is completely normal and temporary.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 2</div>
-                                <div class="hexagon-title">Why Teens Feel More Intensely</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Why Teens Feel More Intensely</div>
-                                <div class="tooltip-description">During adolescence, the emotional centers of your brain develop faster than the prefrontal cortex. This imbalance is completely normal and temporary.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 288px; height: 40px;"></div>
-                        
-                        <a href="lesson-emotions-3.html" class="hexagon" data-lesson="3" onmouseenter="showTooltip(this, 'The R.A.E. Framework', 'Recognize: Identify what you are feeling. Analyze: Understand why you are feeling this way. Empathize: Extend understanding to yourself and others.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 3</div>
-                                <div class="hexagon-title">The R.A.E. Framework</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">The R.A.E. Framework</div>
-                                <div class="tooltip-description">Recognize: Identify what you are feeling. Analyze: Understand why you are feeling this way. Empathize: Extend understanding to yourself and others.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 452px; height: 40px;"></div>
-                        
-                        <a href="lesson-emotions-4.html" class="hexagon" data-lesson="4" onmouseenter="showTooltip(this, 'Practice: Emotion Check-In', 'Apply the R.A.E. framework to something you are feeling right now. This helps build emotional awareness and intelligence.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 4</div>
-                                <div class="hexagon-title">Practice: Emotion Check-In</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Practice: Emotion Check-In</div>
-                                <div class="tooltip-description">Apply the R.A.E. framework to something you are feeling right now. This helps build emotional awareness and intelligence.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 616px; height: 40px;"></div>
-                        
-                        <a href="lesson-emotions-5.html" class="hexagon" data-lesson="5" onmouseenter="showTooltip(this, 'Self-Check Quiz', 'Test your understanding of emotions and emotional intelligence with this interactive quiz.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 5</div>
-                                <div class="hexagon-title">Self-Check Quiz</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Self-Check Quiz</div>
-                                <div class="tooltip-description">Test your understanding of emotions and emotional intelligence with this interactive quiz.</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Stress Pathway -->
-            <section class="pathway-section" id="pathway-stress">
-                <h2 class="pathway-title">Stress Management</h2>
-                <p class="pathway-description">Learn practical techniques to handle pressure from school, work, and life without letting it overwhelm you.</p>
-                
-                <div class="pathway-container">
-                    <div class="hexagon-path">
-                        <a href="lesson-stress-1.html" class="hexagon" data-lesson="1" onmouseenter="showTooltip(this, 'What is Stress?', 'Stress is your body\'s response to changes and challenges. It\'s your brain\'s way of preparing you to face what\'s coming ahead.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 1</div>
-                                <div class="hexagon-title">What is Stress?</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">What is Stress?</div>
-                                <div class="tooltip-description">Stress is your body's response to changes and challenges. It's your brain's way of preparing you to face what's coming ahead.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 124px; height: 40px;"></div>
-                        
-                        <a href="lesson-stress-2.html" class="hexagon" data-lesson="2" onmouseenter="showTooltip(this, 'What Causes Stress?', 'Common stress triggers for teens include academic pressure, social situations, family expectations, and future uncertainty.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 2</div>
-                                <div class="hexagon-title">What Causes Stress?</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">What Causes Stress?</div>
-                                <div class="tooltip-description">Common stress triggers for teens include academic pressure, social situations, family expectations, and future uncertainty.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 288px; height: 40px;"></div>
-                        
-                        <a href="lesson-stress-3.html" class="hexagon" data-lesson="3" onmouseenter="showTooltip(this, 'Stress Management Strategies', 'Learn practical techniques like identifying triggers, planning ahead, practicing mindfulness, and connecting with others.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 3</div>
-                                <div class="hexagon-title">Stress Management Strategies</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Stress Management Strategies</div>
-                                <div class="tooltip-description">Learn practical techniques like identifying triggers, planning ahead, practicing mindfulness, and connecting with others.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 452px; height: 40px;"></div>
-                        
-                        <a href="lesson-stress-4.html" class="hexagon" data-lesson="4" onmouseenter="showTooltip(this, 'Breathing Exercises', 'Interactive breathing exercises including box breathing, 4-7-8 technique, and 5-4-3-2-1 grounding to calm your nervous system.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 4</div>
-                                <div class="hexagon-title">Breathing Exercises</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Breathing Exercises</div>
-                                <div class="tooltip-description">Interactive breathing exercises including box breathing, 4-7-8 technique, and 5-4-3-2-1 grounding to calm your nervous system.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 616px; height: 40px;"></div>
-                        
-                        <a href="lesson-stress-5.html" class="hexagon" data-lesson="5" onmouseenter="showTooltip(this, 'Practice & Quiz', 'Complete a stress check-in practice and test your knowledge with the self-check quiz.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 5</div>
-                                <div class="hexagon-title">Practice & Quiz</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Practice & Quiz</div>
-                                <div class="tooltip-description">Complete a stress check-in practice and test your knowledge with the self-check quiz.</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Self-Care Pathway -->
-            <section class="pathway-section" id="pathway-care">
-                <h2 class="pathway-title">Self-Care Strategies</h2>
-                <p class="pathway-description">Learn how to take care of your physical and mental health through daily habits that actually work.</p>
-                
-                <div class="pathway-container">
-                    <div class="hexagon-path">
-                        <a href="lesson-care-1.html" class="hexagon" data-lesson="1" onmouseenter="showTooltip(this, 'What is Self-Care?', 'Self-care is the practice of taking deliberate actions to care for your physical, mental, and emotional health.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 1</div>
-                                <div class="hexagon-title">What is Self-Care?</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">What is Self-Care?</div>
-                                <div class="tooltip-description">Self-care is the practice of taking deliberate actions to care for your physical, mental, and emotional health.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 124px; height: 40px;"></div>
-                        
-                        <a href="lesson-care-2.html" class="hexagon" data-lesson="2" onmouseenter="showTooltip(this, 'Mental Self-Care Strategies', 'Learn about setting clear intentions, connecting with others, practicing relaxation, and turning emotions into actions.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 2</div>
-                                <div class="hexagon-title">Mental Self-Care</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Mental Self-Care Strategies</div>
-                                <div class="tooltip-description">Learn about setting clear intentions, connecting with others, practicing relaxation, and turning emotions into actions.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 288px; height: 40px;"></div>
-                        
-                        <a href="lesson-care-3.html" class="hexagon" data-lesson="3" onmouseenter="showTooltip(this, 'Sleep & Nutrition', 'Why sleep matters for teen development and daily nutrition requirements to function at your best.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 3</div>
-                                <div class="hexagon-title">Sleep & Nutrition</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Sleep & Nutrition</div>
-                                <div class="tooltip-description">Why sleep matters for teen development and daily nutrition requirements to function at your best.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 452px; height: 40px;"></div>
-                        
-                        <a href="lesson-care-4.html" class="hexagon" data-lesson="4" onmouseenter="showTooltip(this, 'Balancing School and Life', 'Practical strategies to manage your time without burning out, including creating schedules and learning to say no.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 4</div>
-                                <div class="hexagon-title">Balancing Life</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Balancing School and Life</div>
-                                <div class="tooltip-description">Practical strategies to manage your time without burning out, including creating schedules and learning to say no.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 616px; height: 40px;"></div>
-                        
-                        <a href="lesson-care-5.html" class="hexagon" data-lesson="5" onmouseenter="showTooltip(this, 'Build Your Self-Care Plan', 'Create a personalized self-care routine and test your knowledge with the self-check quiz.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 5</div>
-                                <div class="hexagon-title">Your Plan & Quiz</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Build Your Self-Care Plan</div>
-                                <div class="tooltip-description">Create a personalized self-care routine and test your knowledge with the self-check quiz.</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Positive Self-Talk Pathway -->
-            <section class="pathway-section" id="pathway-talk">
-                <h2 class="pathway-title">Positive Self-Talk</h2>
-                <p class="pathway-description">Learn to recognize negative thought patterns and transform them into thoughts that support your growth and wellbeing.</p>
-                
-                <div class="pathway-container">
-                    <div class="hexagon-path">
-                        <a href="lesson-talk-1.html" class="hexagon" data-lesson="1" onmouseenter="showTooltip(this, 'Why Self-Talk Matters', 'Positive self-talk has been linked to higher life expectancy, reduced risk of cardiovascular disease, and better mental health outcomes.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 1</div>
-                                <div class="hexagon-title">Why Self-Talk Matters</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Why Self-Talk Matters</div>
-                                <div class="tooltip-description">Positive self-talk has been linked to higher life expectancy, reduced risk of cardiovascular disease, and better mental health outcomes.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 124px; height: 40px;"></div>
-                        
-                        <a href="lesson-talk-2.html" class="hexagon" data-lesson="2" onmouseenter="showTooltip(this, 'Four Types of Negative Thinking', 'Learn to recognize personalizing, magnifying, catastrophizing, and polarizing thought patterns.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 2</div>
-                                <div class="hexagon-title">Negative Thinking Patterns</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Four Types of Negative Thinking</div>
-                                <div class="tooltip-description">Learn to recognize personalizing, magnifying, catastrophizing, and polarizing thought patterns.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 288px; height: 40px;"></div>
-                        
-                        <a href="lesson-talk-3.html" class="hexagon" data-lesson="3" onmouseenter="showTooltip(this, 'Reframing in Action', 'See how negative thoughts can be transformed into helpful ones with practical examples.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 3</div>
-                                <div class="hexagon-title">Reframing in Action</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Reframing in Action</div>
-                                <div class="tooltip-description">See how negative thoughts can be transformed into helpful ones with practical examples.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 452px; height: 40px;"></div>
-                        
-                        <a href="lesson-talk-4.html" class="hexagon" data-lesson="4" onmouseenter="showTooltip(this, 'Growth vs. Fixed Mindset', 'Your mindset shapes everything. Learn the difference between a growth mindset and a fixed mindset.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 4</div>
-                                <div class="hexagon-title">Growth Mindset</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Growth vs. Fixed Mindset</div>
-                                <div class="tooltip-description">Your mindset shapes everything. Learn the difference between a growth mindset and a fixed mindset.</div>
-                            </div>
-                        </a>
-                        
-                        <div class="pathway-connector vertical" style="top: 616px; height: 40px;"></div>
-                        
-                        <a href="lesson-talk-5.html" class="hexagon" data-lesson="5" onmouseenter="showTooltip(this, 'Practice & Quiz', 'Practice reframing your thoughts and test your knowledge with the self-check quiz.')">
-                            <svg viewBox="0 0 120 120">
-                                <polygon points="60,10 110,35 110,85 60,110 10,85 10,35" fill="var(--cream-dark)" stroke="var(--night)" stroke-width="2"/>
-                            </svg>
-                            <div class="hexagon-content">
-                                <div class="hexagon-number">Lesson 5</div>
-                                <div class="hexagon-title">Practice & Quiz</div>
-                            </div>
-                            <div class="lesson-tooltip">
-                                <div class="tooltip-title">Practice & Quiz</div>
-                                <div class="tooltip-description">Practice reframing your thoughts and test your knowledge with the self-check quiz.</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
+            <!-- Lesson View -->
+            <div class="lesson-view" id="lesson-view">
+                <!-- Populated when a lesson is selected -->
+            </div>
         </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar-right">
+            <div class="user-section">
+                <div class="user-avatar" id="user-avatar">?</div>
+                <div class="user-info">
+                    <h4 id="user-name">Guest</h4>
+                    <p id="user-email">Not signed in</p>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h4>Quick Actions</h4>
+                <a href="index.html" class="action-btn">
+                    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    Back to Home
+                </a>
+                <button class="action-btn" onclick="showPathway()">
+                    <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                    View All Lessons
+                </button>
+                <button class="action-btn" onclick="resetProgress()">
+                    <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                    Reset Progress
+                </button>
+                <button class="action-btn danger" onclick="logout()">
+                    <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                    Sign Out
+                </button>
+            </div>
+
+            <div class="crisis-box">
+                <h4>Need Help Now?</h4>
+                <p>If you are in crisis or need immediate support, help is available 24/7.</p>
+                <a href="tel:988" class="crisis-btn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                    Call 988
+                </a>
+            </div>
+        </aside>
     </div>
 
     <script>
-        // Mobile menu
-        function toggleMobileMenu() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        }
+        // ==================== LESSON DATA ====================
+        var lessons = [
+            {
+                id: 1,
+                title: "What Depression Really Is",
+                description: "Understand depression as a health condition, not a personal weakness",
+                time: "6-8 min",
+                content: {
+                    sections: [
+                        {
+                            title: "Depression is a Medical Condition",
+                            content: "<p>Depression is a medical condition that affects how you feel, think, and act for weeks or months - not just a bad day. It is not a personal weakness or something you can just snap out of.</p><p>Depression is common in teens. In the United States, around 16% of 12 to 17 year olds have a major depressive episode in a year. That means if you are struggling, you are not alone.</p>",
+                            highlight: "Seeking help for depression is an act of courage - like asking for backup with a stalled truck, a long winter, or a hard calving season. It is not a sign of weakness."
+                        },
+                        {
+                            title: "Wyoming Statistics",
+                            type: "stat",
+                            number: "10,000",
+                            label: "Wyoming adolescents experience a major depressive episode each year. Wyoming has one of the highest youth depression rates in the U.S."
+                        },
+                        {
+                            title: "How Depression Looks in Teens",
+                            content: "<h3>Mood and Emotion Changes</h3><ul><li>Feeling deeply sad, empty, numb, or hopeless most days</li><li>Irritability, anger, or being always annoyed - even over small things</li><li>Feeling worthless, guilty, or like a burden to others</li></ul><h3>Thinking Changes</h3><ul><li>Trouble concentrating, focusing on schoolwork, or making decisions</li><li>Very negative self-talk like \"I am a failure\" or \"Nothing will ever get better\"</li></ul><h3>Behavior and Body Changes</h3><ul><li>Losing interest in activities you used to enjoy - sports, ranch work, music, gaming, clubs</li><li>Withdrawing from friends or family and wanting to be alone all the time</li><li>Changes in sleep (too much or too little) and appetite (eating more or less)</li><li>Unexplained headaches, stomachaches, or low energy most of the time</li></ul>"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 2,
+                title: "Depression in Wyoming",
+                description: "How rural life, isolation, and culture affect mental health",
+                time: "6-8 min",
+                content: {
+                    sections: [
+                        {
+                            title: "The Wyoming Reality",
+                            content: "<p>Wyoming is rural, with long distances between towns, harsh winters, limited transportation, and many families depending on ranching, energy, and seasonal work. These conditions can:</p><ul><li>Increase isolation - few peers nearby, long drives to school or activities</li><li>Make it hard to get to counseling or medical care regularly</li><li>Add stress from economic ups and downs, ranch chores, and responsibility at young ages</li></ul>"
+                        },
+                        {
+                            title: "Access to Care",
+                            type: "stat",
+                            number: "260:1",
+                            label: "Wyoming has about 260 residents per one mental health provider. Many are clustered in bigger towns, leaving rural areas with few or no local options."
+                        },
+                        {
+                            title: "Frontier Culture and Stigma",
+                            content: "<p>The \"tough it out\" mentality, self-reliance, and privacy can be strengths - but they can also make teens feel they must hide emotional pain or \"just get over it.\"</p>",
+                            highlight: "Asking for help can fit Wyoming values of taking responsibility and looking out for your neighbors. Getting support is not giving up - it is being smart about taking care of yourself."
+                        },
+                        {
+                            title: "LGBTQ+ and Native American Youth",
+                            content: "<p><strong>LGBTQ+ youth in Wyoming</strong> report very high rates of depression and suicidal thoughts. 78% report anxiety symptoms and 57% have seriously considered suicide in the past year. Many cannot access the mental health care they need.</p><p>LGBTQ+ youth are not naturally more depressed - they are hurt by bullying, stigma, rejection, and discriminatory messages or policies.</p><p><strong>Native youth</strong> in the region often face intergenerational trauma, racism, poverty, and disconnection from culture, which increase risk for depression. Cultural connection, language, ceremony, and strong relationships are powerful protective factors.</p>"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 3,
+                title: "Recognizing Depression in Yourself",
+                description: "Learn a simple self-check and when to ask for help",
+                time: "5-7 min",
+                content: {
+                    sections: [
+                        {
+                            title: "The Two-Week Rule",
+                            content: "<p>Use the \"two-week rule\" - if several of the following are present most days for at least 2 weeks, depression might be involved:</p><ul><li>Low mood, irritability, or emptiness most of the day</li><li>Loss of interest or joy in things you used to like</li><li>Big changes in sleep, appetite, or energy</li><li>Feeling worthless, very guilty, or like life is pointless</li><li>Trouble concentrating on school, chores, or conversations</li></ul>"
+                        },
+                        {
+                            title: "Depression Does Not Always Look Like Sadness",
+                            content: "<p>In teens, depression often looks like:</p><ul><li>Being \"mad at everyone,\" getting into more conflicts, or acting out</li><li>Pulling away, skipping school, or grades dropping</li><li>Physical complaints like stomach aches or headaches with no clear medical cause</li></ul>",
+                            highlight: "Ask yourself: Has anything felt fun lately? Do I feel hopeful about anything in the next month? If the answers are consistently no, it might be time to talk to someone."
+                        },
+                        {
+                            title: "Culture and Identity Matter",
+                            content: "<p>If you are LGBTQ+, Native, or from a marginalized group, stress from prejudice or racism can show up as depression. The problem is the mistreatment, not who you are.</p><p>Recognizing this can help you understand your feelings and seek support that truly helps.</p>"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 4,
+                title: "Recognizing Depression in a Friend",
+                description: "Spot warning signs and know the limits of what friends can do",
+                time: "5-7 min",
+                content: {
+                    sections: [
+                        {
+                            title: "Signs a Friend Might Be Depressed",
+                            content: "<ul><li>They consistently cancel plans or stop showing up to school, sports, rodeo practice, youth group, or community events</li><li>They seem down, exhausted, or irritable almost every time you see them</li><li>They talk very negatively about themselves or the future</li><li>They start using more alcohol or drugs, or taking risky chances like reckless driving</li><li>You notice new self-harm marks or comments about not wanting to live</li></ul>",
+                            highlight: "Friends are important, but they are not therapists or doctors. Your job is to notice, care, and help connect to support - not to fix everything yourself."
+                        },
+                        {
+                            title: "Notice, Name, Nudge",
+                            content: "<p>Use this simple framework when you are worried about a friend:</p><h3>Notice</h3><p>Pay attention to changes over time, not just a bad week before finals.</p><h3>Name</h3><p>Gently say what you see: \"You have seemed really down and tired lately. I am worried about you.\"</p><h3>Nudge</h3><p>Encourage them to talk to a trusted adult or counselor. Offer to walk with them or sit while they text or call for help.</p>"
+                        },
+                        {
+                            title: "Respecting Identities",
+                            content: "<p>If your friend is LGBTQ+ or Native, respect their name, pronouns, and cultural practices. Being accepting itself lowers risk of depression and suicide attempts.</p><p>You do not have to understand everything about their identity to be a good friend - just listen and respect who they are.</p>"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 5,
+                title: "Non-Medication Treatments",
+                description: "Therapy and lifestyle strategies that help manage depression",
+                time: "7-10 min",
+                content: {
+                    sections: [
+                        {
+                            title: "Therapy (Counseling)",
+                            content: "<p><strong>Cognitive Behavioral Therapy (CBT)</strong> helps teens notice negative thought patterns, build coping skills, and increase positive activities. It is one of the most researched and effective treatments for teen depression.</p><p><strong>Interpersonal Therapy (IPT)</strong> focuses on relationships, communication, and handling conflicts or losses that may fuel depression.</p><p><strong>Group and family therapies</strong> can reduce isolation and improve family communication.</p>"
+                        },
+                        {
+                            title: "Mind-Body and Activity-Based Approaches",
+                            content: "<p>Mind-body therapies like yoga, dance therapy, and Tai Chi significantly reduce depressive symptoms in adolescents. In research, yoga and dance therapy were among the most effective options.</p><p>Regular physical activity - walking, riding, sports, ranch chores, dance - improves mood and is practical in many Wyoming communities.</p><p>Sleep routines, balanced nutrition, and reducing substance use support mood recovery.</p>"
+                        },
+                        {
+                            title: "Social Connection and Identity",
+                            content: "<p>Strong connections with friends, family, and community are protective. Feeling accepted for who you are greatly lowers depression and suicide risk, especially for LGBTQ+ and Native youth.</p><p>Cultural and spiritual practices - tribal language, ceremony, time with elders, church or faith groups that are truly affirming - improve mental health and resilience.</p>",
+                            type: "wyoming",
+                            wyomingContent: "Telehealth (online or phone counseling) can help when in-person services are far away. Some Wyoming providers, schools, and programs offer virtual sessions for youth. School-based mental health initiatives are expanding because so many Wyoming youth with depression are not getting treatment."
+                        }
+                    ]
+                }
+            },
+            {
+                id: 6,
+                title: "Medical Treatment: Antidepressants 101",
+                description: "A neutral overview of medication options for teens",
+                time: "5-7 min",
+                content: {
+                    sections: [
+                        {
+                            title: "Treatment Options",
+                            content: "<p>Common treatments for adolescent depression include:</p><ul><li><strong>Therapy alone</strong> - often the first choice for mild depression</li><li><strong>Antidepressant medication plus therapy</strong> - for moderate to severe depression, or when therapy alone is not enough</li></ul><p>Selective Serotonin Reuptake Inhibitors (SSRIs) are the most commonly used antidepressants in teens. Research shows SSRIs are more effective than placebo.</p><p><strong>Fluoxetine (Prozac)</strong> has the strongest evidence as a first-line SSRI in adolescents.</p>"
+                        },
+                        {
+                            title: "The FDA Black Box Warning",
+                            content: "<p>Antidepressants can slightly increase suicidal thoughts and behaviors in some youth early in treatment - about 4% on medication versus 2% on placebo in large studies.</p><p>However, there were no completed suicides in these pediatric trials, and overall, wider SSRI use has been linked with lower youth suicide rates in population studies.</p>",
+                            highlight: "Teens starting or changing antidepressants need close check-ins with adults and clinicians to watch for mood changes (better or worse), side effects, or suicidal thoughts. Medication works best with proper monitoring."
+                        },
+                        {
+                            title: "Making Decisions Together",
+                            content: "<p>Decisions about medication should always involve:</p><ul><li>You - your concerns, questions, and preferences matter</li><li>Your parent or guardian</li><li>A doctor or psychiatrist who can explain options and monitor your response</li></ul><p>You have the right to ask questions and understand what you are taking and why.</p>"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 7,
+                title: "Getting Help in Wyoming",
+                description: "Practical steps to access support despite distance and barriers",
+                time: "5-7 min",
+                content: {
+                    sections: [
+                        {
+                            title: "Pathways to Help",
+                            content: "<h3>School</h3><p>Counselor, trusted teacher, coach, or school-based screening and referral programs. Wyoming has been expanding school-based mental health due to high unmet need.</p><h3>Health Care</h3><p>Primary care provider, pediatrician, tribal clinic, or community health center can screen for depression and refer for therapy or medication.</p><h3>Community</h3><p>4-H, FFA, church or youth groups, tribal youth programs, local nonprofits. Some are part of rural youth mental health initiatives.</p>"
+                        },
+                        {
+                            title: "Overcoming Barriers",
+                            content: "<p><strong>Transportation:</strong> Ask about telehealth options. See if your school or tribe can help with rides or remote options.</p><p><strong>Stigma:</strong> Frame mental health help as tuning up your mind like tuning a truck or practicing for a rodeo or game. It is part of taking care of yourself and your community.</p>",
+                            type: "wyoming",
+                            wyomingContent: "Many Wyoming youth with major depression are not in treatment. Adults are often the bridge that makes care possible. If you are struggling to find help, ask a trusted adult to help you navigate the system."
+                        },
+                        {
+                            title: "Specific Supports",
+                            content: "<p><strong>For LGBTQ+ youth:</strong> Many report not getting needed mental health care due to cost, fear of not being taken seriously, or not wanting to involve parents. Affirming adults and peers significantly reduce risk. Look for providers who are explicitly LGBTQ+-affirming.</p><p><strong>For Native youth:</strong> Programs grounded in Indigenous culture have measurable benefits for mental health. Strengthening cultural identity, family support, and coping skills helps. Tribal clinics and culturally-specific programs may be available.</p>"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 8,
+                title: "How to Support a Friend",
+                description: "Build peer-support skills while maintaining healthy boundaries",
+                time: "6-8 min",
+                content: {
+                    sections: [
+                        {
+                            title: "Helpful Ways to Support",
+                            content: "<ul><li><strong>Listen without jumping to advice.</strong> Reflect feelings: \"That sounds really heavy. I am glad you told me.\"</li><li><strong>Validate their experience.</strong> Avoid \"just cheer up\" or \"others have it worse.\" Instead say: \"Your feelings make sense given what you are going through.\"</li><li><strong>Invite small, doable activities.</strong> A short walk, feeding animals, shooting hoops, crafting, or other low-pressure activities.</li><li><strong>Use inclusive language</strong> and respect names, pronouns, and cultural practices. Acceptance is protective, especially for LGBTQ+ and Native friends.</li></ul>"
+                        },
+                        {
+                            title: "Boundaries and Safety",
+                            content: "<p>You cannot fix depression alone. Your main role is:</p><ul><li>Being a supportive presence</li><li>Helping connect them to adults and professional help</li></ul>",
+                            highlight: "If you are worried about their safety - self-harm, talk of not wanting to live - tell a trusted adult, even if your friend is upset. Their life matters more than temporary anger. This is not betraying them; it is getting them help they need."
+                        },
+                        {
+                            title: "Taking Care of Yourself",
+                            content: "<p>Supporting a friend with depression can be emotionally heavy. Remember:</p><ul><li>You are not responsible for fixing them</li><li>It is okay to set limits on when and how much you can help</li><li>Talk to a trusted adult about your own feelings</li><li>Take breaks and do things that restore your energy</li></ul><p>You cannot pour from an empty cup.</p>"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 9,
+                title: "For Supportive Adults",
+                description: "Guide for parents, caregivers, teachers, coaches, and community leaders",
+                time: "7-10 min",
+                content: {
+                    sections: [
+                        {
+                            title: "Recognizing Depression in Teens",
+                            content: "<p>Look for persistent changes (over weeks) in mood, school performance, interests, sleep and eating, and behavior - not just typical teen ups and downs.</p><p>Teen depression often shows as irritability, anger, or acting out, not just sadness. Watch for withdrawal, increased physical complaints, and talk of worthlessness or hopelessness.</p>"
+                        },
+                        {
+                            title: "Wyoming-Specific Context",
+                            content: "<p>Be aware of how long distances, harsh weather, work schedules, and provider shortages make accessing care hard. Small communities can increase both support and gossip or stigma.</p>",
+                            type: "stat",
+                            number: "Most",
+                            label: "Wyoming youth with major depression are not in treatment. Adults are often the bridge that makes care possible."
+                        },
+                        {
+                            title: "Responding Effectively",
+                            content: "<ul><li><strong>Listen first.</strong> Avoid minimizing (\"You are just being dramatic\") or moralizing (\"You just need more willpower\").</li><li><strong>Use open-ended questions</strong> and nonjudgmental statements: \"Help me understand what this has been like for you.\"</li><li><strong>Offer concrete help</strong> with logistics - rides, time off work for appointments, helping navigate insurance or telehealth.</li><li><strong>Collaborate</strong> with schools, primary care, and community resources. Combination treatment (therapy plus medication when indicated) is often most effective for moderate to severe depression.</li></ul>"
+                        },
+                        {
+                            title: "Supporting LGBTQ+ and Native Youth",
+                            content: "<p>Research shows that family acceptance and community affirmation strongly lower depression and suicide attempts for LGBTQ+ youth. Indigenous youth benefit from culturally grounded programs, strong tribal identity, connection with elders, and recognition of intergenerational trauma.</p><h3>Practical Actions</h3><ul><li>Use chosen names and pronouns</li><li>Challenge bullying, racism, and discriminatory language in schools, teams, churches, and community spaces</li><li>Support participation in cultural and spiritual practices that matter to the teen</li></ul>"
+                        },
+                        {
+                            title: "When to Seek Professional Help",
+                            content: "<p>Seek evaluation if symptoms last more than 2 weeks and cause problems at home, school, or with peers - or sooner if there are any safety concerns.</p><p>Work with clinicians familiar with adolescents. Evidence-based therapies (CBT, IPT) and SSRIs like fluoxetine are recommended for moderate to severe depression, with careful monitoring.</p>"
+                        }
+                    ]
+                }
+            }
+        ];
 
-        // Show pathway section
-        function showPathway(pathwayId) {
-            // Hide all pathways
-            document.querySelectorAll('.pathway-section').forEach(section => {
-                section.classList.remove('active');
+        // ==================== USER DATA ====================
+        var currentUser = null;
+        var userProgress = {
+            completedLessons: [],
+            currentLesson: 1,
+            streak: 0,
+            lastVisit: null
+        };
+
+        // ==================== AUTHENTICATION ====================
+        function switchLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(function(t) {
+                t.classList.remove('active');
             });
-
-            // Show selected pathway
-            document.getElementById('pathway-' + pathwayId).classList.add('active');
-
-            // Update outline active state
-            document.querySelectorAll('.outline-item').forEach(item => {
-                item.classList.remove('active');
+            document.querySelectorAll('.login-form').forEach(function(f) {
+                f.classList.remove('active');
             });
-            event.target.closest('.outline-item').classList.add('active');
-        }
-
-        // Show tooltip
-        function showTooltip(element, title, description) {
-            // Tooltip is shown via CSS hover
-        }
-
-        // Update progress
-        function updateProgress() {
-            const completed = document.querySelectorAll('.hexagon.completed').length;
-            const total = document.querySelectorAll('.hexagon').length;
-            const percentage = Math.round((completed / total) * 100);
             
-            document.getElementById('overall-progress').style.width = percentage + '%';
-            document.getElementById('progress-text').textContent = percentage + '% Complete';
+            if (tab === 'login') {
+                document.querySelector('.login-tab:first-child').classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+            } else {
+                document.querySelector('.login-tab:last-child').classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+            }
+            
+            // Clear errors
+            document.querySelectorAll('.form-error').forEach(function(e) {
+                e.classList.remove('show');
+            });
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
+        function handleLogin(e) {
+            e.preventDefault();
+            var email = document.getElementById('login-email').value;
+            var password = document.getElementById('login-password').value;
+            
+            // Check localStorage for user
+            var users = JSON.parse(localStorage.getItem('tmh_users') || '{}');
+            
+            if (users[email] && users[email].password === password) {
+                currentUser = users[email];
+                loadUserProgress(email);
+                showApp();
+            } else {
+                document.getElementById('login-error').classList.add('show');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            var name = document.getElementById('register-name').value;
+            var email = document.getElementById('register-email').value;
+            var password = document.getElementById('register-password').value;
+            
+            var users = JSON.parse(localStorage.getItem('tmh_users') || '{}');
+            
+            if (users[email]) {
+                document.getElementById('register-error').classList.add('show');
+                return;
+            }
+            
+            // Create new user
+            users[email] = {
+                name: name,
+                email: email,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('tmh_users', JSON.stringify(users));
+            
+            // Initialize progress for new user
+            var progressData = JSON.parse(localStorage.getItem('tmh_progress') || '{}');
+            progressData[email] = {
+                completedLessons: [],
+                currentLesson: 1,
+                streak: 0,
+                lastVisit: new Date().toISOString()
+            };
+            localStorage.setItem('tmh_progress', JSON.stringify(progressData));
+            
+            currentUser = users[email];
+            userProgress = progressData[email];
+            showApp();
+        }
+
+        function guestLogin() {
+            currentUser = {
+                name: 'Guest',
+                email: 'guest',
+                isGuest: true
+            };
+            
+            // Load or initialize guest progress
+            var guestProgress = localStorage.getItem('tmh_guest_progress');
+            if (guestProgress) {
+                userProgress = JSON.parse(guestProgress);
+            } else {
+                userProgress = {
+                    completedLessons: [],
+                    currentLesson: 1,
+                    streak: 0,
+                    lastVisit: new Date().toISOString()
+                };
+            }
+            
+            showApp();
+        }
+
+        function loadUserProgress(email) {
+            var progressData = JSON.parse(localStorage.getItem('tmh_progress') || '{}');
+            if (progressData[email]) {
+                userProgress = progressData[email];
+                
+                // Check streak
+                var lastVisit = new Date(userProgress.lastVisit);
+                var today = new Date();
+                var diffDays = Math.floor((today - lastVisit) / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === 1) {
+                    userProgress.streak++;
+                } else if (diffDays > 1) {
+                    userProgress.streak = 1;
+                }
+                
+                userProgress.lastVisit = today.toISOString();
+                saveProgress();
+            } else {
+                userProgress = {
+                    completedLessons: [],
+                    currentLesson: 1,
+                    streak: 1,
+                    lastVisit: new Date().toISOString()
+                };
+            }
+        }
+
+        function saveProgress() {
+            if (currentUser.isGuest) {
+                localStorage.setItem('tmh_guest_progress', JSON.stringify(userProgress));
+            } else {
+                var progressData = JSON.parse(localStorage.getItem('tmh_progress') || '{}');
+                progressData[currentUser.email] = userProgress;
+                localStorage.setItem('tmh_progress', JSON.stringify(progressData));
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('app-container').classList.remove('active');
+            document.getElementById('login-screen').classList.remove('hidden');
+            
+            // Clear form fields
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('register-name').value = '';
+            document.getElementById('register-email').value = '';
+            document.getElementById('register-password').value = '';
+        }
+
+        function showApp() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-container').classList.add('active');
+            
+            // Update user display
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-email').textContent = currentUser.isGuest ? 'Guest mode' : currentUser.email;
+            document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            
+            // Render UI
+            renderOutline();
+            renderPathway();
             updateProgress();
+        }
+
+        // ==================== UI RENDERING ====================
+        function renderOutline() {
+            var list = document.getElementById('outline-list');
+            list.innerHTML = '';
+            
+            lessons.forEach(function(lesson, index) {
+                var isCompleted = userProgress.completedLessons.indexOf(lesson.id) !== -1;
+                var isAvailable = index === 0 || userProgress.completedLessons.indexOf(lessons[index - 1].id) !== -1;
+                var isCurrent = lesson.id === userProgress.currentLesson;
+                
+                var li = document.createElement('li');
+                li.className = 'outline-item';
+                if (isCompleted) li.classList.add('completed');
+                if (isCurrent) li.classList.add('active');
+                if (!isAvailable && !isCompleted) li.classList.add('locked');
+                
+                li.innerHTML = '<div class="outline-number">' + lesson.id + '</div>' +
+                    '<span class="outline-text">' + lesson.title + '</span>';
+                
+                if (isAvailable || isCompleted) {
+                    li.onclick = function() { openLesson(lesson.id); };
+                }
+                
+                list.appendChild(li);
+            });
+        }
+
+        function renderPathway() {
+            var container = document.getElementById('pathway-container');
+            container.innerHTML = '';
+            
+            var pathwayNodes = document.createElement('div');
+            pathwayNodes.className = 'pathway-nodes';
+            
+            // Create rows with alternating offsets
+            var rowConfigs = [
+                { lessons: [1], offset: '' },
+                { lessons: [2], offset: 'offset' },
+                { lessons: [3], offset: '' },
+                { lessons: [4], offset: 'offset-left' },
+                { lessons: [5], offset: '' },
+                { lessons: [6], offset: 'offset' },
+                { lessons: [7], offset: '' },
+                { lessons: [8], offset: 'offset-left' },
+                { lessons: [9], offset: '' }
+            ];
+            
+            rowConfigs.forEach(function(config) {
+                var row = document.createElement('div');
+                row.className = 'pathway-row ' + config.offset;
+                
+                config.lessons.forEach(function(lessonId) {
+                    var lesson = lessons.find(function(l) { return l.id === lessonId; });
+                    if (lesson) {
+                        row.appendChild(createHexNode(lesson));
+                    }
+                });
+                
+                pathwayNodes.appendChild(row);
+            });
+            
+            container.appendChild(pathwayNodes);
+        }
+
+        function createHexNode(lesson) {
+            var isCompleted = userProgress.completedLessons.indexOf(lesson.id) !== -1;
+            var isAvailable = lesson.id === 1 || userProgress.completedLessons.indexOf(lesson.id - 1) !== -1;
+            var isCurrent = !isCompleted && isAvailable;
+            
+            var node = document.createElement('div');
+            node.className = 'hex-node';
+            if (isCompleted) node.classList.add('completed');
+            else if (isCurrent) node.classList.add('current');
+            else if (isAvailable) node.classList.add('available');
+            else node.classList.add('locked');
+            
+            var icon = getIconForLesson(lesson.id);
+            
+            node.innerHTML = 
+                '<div class="hex-shape">' +
+                    '<div class="hex-content">' +
+                        '<div class="hex-icon">' + icon + '</div>' +
+                        '<div class="hex-number">Lesson ' + lesson.id + '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="hex-tooltip">' +
+                    '<div class="hex-tooltip-title">' + lesson.title + '</div>' +
+                    '<div class="hex-tooltip-time">' + lesson.time + ' read</div>' +
+                '</div>';
+            
+            if (isAvailable || isCompleted) {
+                node.onclick = function() { openLesson(lesson.id); };
+            }
+            
+            return node;
+        }
+
+        function getIconForLesson(id) {
+            var icons = {
+                1: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>',
+                2: '<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>',
+                3: '<svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>',
+                4: '<svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>',
+                5: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
+                6: '<svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>',
+                7: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>',
+                8: '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
+                9: '<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'
+            };
+            return icons[id] || icons[1];
+        }
+
+        function updateProgress() {
+            var completed = userProgress.completedLessons.length;
+            var total = lessons.length;
+            var percent = Math.round((completed / total) * 100);
+            
+            // Update sidebar progress
+            document.getElementById('progress-bar').style.width = percent + '%';
+            document.getElementById('completed-count').textContent = completed;
+            document.getElementById('progress-percent').textContent = percent + '%';
+            document.getElementById('streak-count').textContent = userProgress.streak;
+            
+            // Update main progress bar
+            document.getElementById('main-progress-fill').style.width = percent + '%';
+            document.getElementById('main-progress-percent').textContent = percent + '%';
+            document.getElementById('main-completed-count').textContent = completed;
+        }
+
+        // ==================== LESSON VIEW ====================
+        function openLesson(lessonId) {
+            var lesson = lessons.find(function(l) { return l.id === lessonId; });
+            if (!lesson) return;
+            
+            userProgress.currentLesson = lessonId;
+            saveProgress();
+            
+            document.getElementById('pathway-view').classList.add('hidden');
+            var lessonView = document.getElementById('lesson-view');
+            lessonView.classList.add('active');
+            
+            var contentHTML = '<div class="lesson-back" onclick="showPathway()">' +
+                '<svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>' +
+                'Back to pathway' +
+            '</div>' +
+            '<div class="lesson-header">' +
+                '<span class="lesson-badge">Lesson ' + lesson.id + ' of ' + lessons.length + '</span>' +
+                '<h1>' + lesson.title + '</h1>' +
+                '<div class="lesson-meta">' +
+                    '<span><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>' + lesson.time + ' read</span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="lesson-content">';
+            
+            lesson.content.sections.forEach(function(section) {
+                contentHTML += '<div class="lesson-section">';
+                
+                if (section.type === 'stat') {
+                    contentHTML += '<div class="stat-box">' +
+                        '<div class="stat-number">' + section.number + '</div>' +
+                        '<div class="stat-label">' + section.label + '</div>' +
+                    '</div>';
+                } else if (section.type === 'wyoming') {
+                    contentHTML += '<h2>' + section.title + '</h2>' +
+                        section.content +
+                        '<div class="wyoming-callout">' +
+                            '<h4><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg> Wyoming Specific</h4>' +
+                            '<p>' + section.wyomingContent + '</p>' +
+                        '</div>';
+                } else {
+                    contentHTML += '<h2>' + section.title + '</h2>' + section.content;
+                    
+                    if (section.highlight) {
+                        contentHTML += '<div class="highlight-box"><p>' + section.highlight + '</p></div>';
+                    }
+                }
+                
+                contentHTML += '</div>';
+            });
+            
+            // Navigation buttons
+            var prevLesson = lessonId > 1 ? lessons.find(function(l) { return l.id === lessonId - 1; }) : null;
+            var nextLesson = lessonId < lessons.length ? lessons.find(function(l) { return l.id === lessonId + 1; }) : null;
+            var isCompleted = userProgress.completedLessons.indexOf(lessonId) !== -1;
+            
+            contentHTML += '<div class="lesson-nav">';
+            
+            if (prevLesson) {
+                contentHTML += '<button class="lesson-nav-btn secondary" onclick="openLesson(' + prevLesson.id + ')">' +
+                    '<svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>' +
+                    'Previous' +
+                '</button>';
+            } else {
+                contentHTML += '<div></div>';
+            }
+            
+            if (!isCompleted) {
+                contentHTML += '<button class="lesson-nav-btn primary" onclick="completeLesson(' + lessonId + ')">' +
+                    'Mark Complete' +
+                    '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>' +
+                '</button>';
+            } else if (nextLesson) {
+                contentHTML += '<button class="lesson-nav-btn primary" onclick="openLesson(' + nextLesson.id + ')">' +
+                    'Next Lesson' +
+                    '<svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>' +
+                '</button>';
+            } else {
+                contentHTML += '<button class="lesson-nav-btn primary" onclick="showPathway()">' +
+                    'Complete!' +
+                    '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>' +
+                '</button>';
+            }
+            
+            contentHTML += '</div></div>';
+            
+            lessonView.innerHTML = contentHTML;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Update outline
+            renderOutline();
+        }
+
+        function completeLesson(lessonId) {
+            if (userProgress.completedLessons.indexOf(lessonId) === -1) {
+                userProgress.completedLessons.push(lessonId);
+                saveProgress();
+                updateProgress();
+                renderOutline();
+                renderPathway();
+            }
+            
+            // Move to next lesson or show completion
+            if (lessonId < lessons.length) {
+                openLesson(lessonId + 1);
+            } else {
+                showPathway();
+            }
+        }
+
+        function showPathway() {
+            document.getElementById('lesson-view').classList.remove('active');
+            document.getElementById('lesson-view').innerHTML = '';
+            document.getElementById('pathway-view').classList.remove('hidden');
+            renderOutline();
+            renderPathway();
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
+                userProgress = {
+                    completedLessons: [],
+                    currentLesson: 1,
+                    streak: userProgress.streak,
+                    lastVisit: new Date().toISOString()
+                };
+                saveProgress();
+                updateProgress();
+                renderOutline();
+                renderPathway();
+                showPathway();
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar-left').classList.toggle('open');
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in (session persistence)
+            var savedSession = localStorage.getItem('tmh_current_session');
+            if (savedSession) {
+                var session = JSON.parse(savedSession);
+                var users = JSON.parse(localStorage.getItem('tmh_users') || '{}');
+                
+                if (session.isGuest) {
+                    guestLogin();
+                } else if (users[session.email]) {
+                    currentUser = users[session.email];
+                    loadUserProgress(session.email);
+                    showApp();
+                }
+            }
         });
+
+        // Save session on login
+        function showApp() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-container').classList.add('active');
+            
+            // Save session
+            localStorage.setItem('tmh_current_session', JSON.stringify({
+                email: currentUser.email,
+                isGuest: currentUser.isGuest || false
+            }));
+            
+            // Update user display
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-email').textContent = currentUser.isGuest ? 'Guest mode' : currentUser.email;
+            document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            
+            // Render UI
+            renderOutline();
+            renderPathway();
+            updateProgress();
+        }
+
+        function logout() {
+            localStorage.removeItem('tmh_current_session');
+            currentUser = null;
+            document.getElementById('app-container').classList.remove('active');
+            document.getElementById('login-screen').classList.remove('hidden');
+            
+            // Clear form fields
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+        }
     </script>
 </body>
 </html>
-
