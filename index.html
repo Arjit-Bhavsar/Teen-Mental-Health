@@ -915,10 +915,10 @@
             </a>
             <ul class="nav-links">
                 <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="emotions.html">Emotions</a></li>
-                <li><a href="stress.html">Stress</a></li>
-                <li><a href="care.html">Self-Care</a></li>
-                <li><a href="talk.html">Self-Talk</a></li>
+                <li><a href="Emotions.html">Emotions</a></li>
+                <li><a href="Stress.html">Stress</a></li>
+                <li><a href="Care.html">Self-Care</a></li>
+                <li><a href="Talk.html">Self-Talk</a></li>
                 <li><a href="learning-center.html" class="nav-learning">Learning Center</a></li>
             </ul>
             <button class="mobile-menu-btn" aria-label="Toggle menu" onclick="toggleMobileMenu()">
@@ -1213,7 +1213,7 @@
         const tips = [
             "🏃‍♂️ Exercise daily—even a short walk boosts mood and reduces stress.",
             "🥗 Eat balanced meals and stay hydrated to support brain function.",
-            "😴 Prioritize sleep; aim for consistent bedtime and reduce screen time before bed.",
+            "😴 Prioritize sleep; aim for a consistent bedtime and reduce screen time before bed.",
             "🌳 Spend time in nature to lower cortisol and improve focus.",
             "🧘‍♀️ Try breathing exercises or meditation to calm your mind.",
             "📚 Read for pleasure—just six minutes can reduce stress by 68%.",
@@ -1268,7 +1268,7 @@
         // Visitor count
         function initVisitorCount() {
             let count = localStorage.getItem('tmhg_visitor_count');
-            if (!count) count = Math.floor(Math.random() * 80) + 120;
+            //if (!count) count = Math.floor(Math.random() * 80) + 120;
             count = parseInt(count) + 1;
             localStorage.setItem('tmhg_visitor_count', count);
             animateValue('visitor-count', 0, count, 1500);
