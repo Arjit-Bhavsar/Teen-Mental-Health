@@ -900,10 +900,11 @@
             .hero-stats { flex-direction: column; gap: 1.25rem; }
             .flip-card { height: 240px; }
         }
+        
     </style>
 </head>
 <body>
-
+     <SpeedInsights />
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -1209,6 +1210,7 @@
     </footer>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        import { SpeedInsights } from "@vercel/speed-insights/next"
         // Tips
         const tips = [
             "🏃‍♂️ Exercise daily—even a short walk boosts mood and reduces stress.",
@@ -1401,3 +1403,6 @@
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.querySelector('.nav-links').classList.re
+</script>
+</body>
+</html>
